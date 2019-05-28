@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DefaultCompletionName</key>
+	<string>MyScene</string>
+	<key>Description</key>
+	<string>This generates a new scene using Uncle Bob&apos;s clean architecture. It consists of the view controller, interactor, presenter, and router. You can then create individual workers to supplement the interactor.</string>
+	<key>Kind</key>
+	<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Placeholder</key>
+			<string>Screen name (e.g. Login)</string>
+			<key>Description</key>
+			<string>The name of the scene to create</string>
+			<key>Identifier</key>
+			<string>sceneName</string>
+			<key>Name</key>
+			<string>New Scene Name:</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>Placeholder</key>
+			<string>Property name (e.g. login)</string>
+			<key>Description</key>
+			<string>The name of the property to create</string>
+			<key>Identifier</key>
+			<string>propertyName</string>
+			<key>Name</key>
+			<string>New Property Name:</string>
+			<key>NotPersisted</key>
+			<true/>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_sceneName:identifier___</string>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Type</key>
+			<string>static</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_sceneName:identifier___Page / ___VARIABLE_propertyName:identifier___Page</string>
+			<key>Description</key>
+			<string>The page name</string>
+			<key>Identifier</key>
+			<string>pageName</string>
+			<key>Name</key>
+			<string>Page Name:</string>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>static</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_sceneName:identifier___Step / ___VARIABLE_propertyName:identifier___Step</string>
+			<key>Description</key>
+			<string>The Step name</string>
+			<key>Identifier</key>
+			<string>stepName</string>
+			<key>Name</key>
+			<string>Step Name:</string>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>static</string>
+		</dict>
+		<dict>
+			<key>Default</key>
+			<string>___VARIABLE_sceneName:identifier___UITests / ___VARIABLE_propertyName:identifier___Page / ___VARIABLE_propertyName:identifier___Step</string>
+			<key>Description</key>
+			<string>The UITests name</string>
+			<key>Identifier</key>
+			<string>uitestsName</string>
+			<key>Name</key>
+			<string>UITests name:</string>
+			<key>Required</key>
+			<true/>
+			<key>Type</key>
+			<string>static</string>
+		</dict>
+	</array>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.iphoneos</string>
+	</array>
+	<key>SortOrder</key>
+	<string>0</string>
+	<key>Summary</key>
+	<string>This generates a new scene using Uncle Bob&apos;s clean architecture.</string>
+</dict>
+</plist>
