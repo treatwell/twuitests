@@ -1,4 +1,6 @@
-<div align="center">
+#### UITests helper by    
+
+<div align="center">   
     <a href="https://treatwell.com/tech/">
     <img style="border-radius: 10%;" src="https://cdn1.treatwell.net/images/view/v2.i1756348.w200.h50.x4965194E.png" />
     </a>
