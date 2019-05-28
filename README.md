@@ -10,6 +10,9 @@
 
 # Usage
 
+### Purpose
+Lightweight UITests framework based on XCTest to help you write and maintain UITests easily and fast with well organised code structure.
+
 ### Use Carthage as a dependancy manager
 
 1. Add `git "https://github.com/treatwell/twuitests.git"` to your Cartfile.
