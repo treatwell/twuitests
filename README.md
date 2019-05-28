@@ -29,7 +29,7 @@
 
 ### Other information
 Server API local responses should be kept at path: `LIBRARY_DIR + "/Developer/CoreSimulator/Devices/" + DEVICE_ID + "/data/Library/Caches/ApiStubs/"`
-Tip: have a script to copy stubs to required destination in build phase. Script example can be found [here](https://github.com/treatwell/twuitests-example).
+Tip: have a script to copy stubs to required destination in build phase. Python script example can be found [here](https://github.com/treatwell/twuitests-example).
 
 ## Example
 Working example project can be found [here](https://github.com/treatwell/twuitests-example).
