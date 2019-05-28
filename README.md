@@ -8,7 +8,7 @@
 
 ### Use Carthage as a dependancy manager
 
-1. Add `git "http://git.treatwell.net/ios/twuitests.git"` to your Cartfile.
+1. Add `git "https://github.com/treatwell/twuitests.git"` to your Cartfile.
 2. Run `carthage update`to fetch & build. Append `--platform iOS` if only iOS build is needed.
 
 ### Main project UITests target configuration
