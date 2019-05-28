@@ -11,7 +11,7 @@
 # Usage
 
 ### Purpose
-Lightweight UITests framework based on XCTest to help you write and maintain UITests quickliy and easily with well organised code structure.
+Lightweight UITests framework based on XCTest to help you write and maintain UITests quickly and easily with well organised code structure.
 
 ### Use Carthage as a dependancy manager
 
