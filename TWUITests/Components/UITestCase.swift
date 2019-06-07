@@ -21,7 +21,7 @@ public protocol ApplicationStarter {
 
 open class UITestCase: XCTestCase {
     public var app: UITestApplication!
-    
+
     override open func setUp() {
         super.setUp()
         // In UI tests it is usually best to stop immediately when a failure occurs.
@@ -29,7 +29,7 @@ open class UITestCase: XCTestCase {
         app = UITestApplication()
         app.setUp()
     }
-    
+
     override open func tearDown() {
         app.tearDown()
         super.tearDown()
@@ -42,7 +42,7 @@ extension UITestCase: ApplicationStarter {
         app.start(using: configuration)
         return app
     }
-    
+
     public func start(using configuration: Configuration, stub: APIStubInfo? = nil) {
         let app = start(using: configuration)
         if let stub = stub {

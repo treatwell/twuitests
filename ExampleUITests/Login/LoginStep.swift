@@ -17,12 +17,12 @@ import XCTest
 
 final class LoginStep: UITestBase, Step {
     lazy var loginPage = LoginPage(app: app)
-    
+
     func typeText(_ text: String, in textField: XCUIElement) -> LoginStep {
         textField.clearAndEnterText(text)
         return self
     }
-    
+
     func tapButtonLogin() -> UITestApplication {
         loginPage.buttonLogin.tap()
         return app
@@ -35,7 +35,7 @@ extension LoginStep {
     func providesEmptyCredentials() -> UITestApplication {
         return providesUsername("", password: "")
     }
-    
+
     func providesUsername(_ userName: String, password: String) -> UITestApplication {
         return typeText(userName, in: app.loginPage.textFieldUsername)
             .typeText(password, in: app.loginPage.textFieldPassword)

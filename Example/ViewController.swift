@@ -18,23 +18,23 @@ class ViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    
+
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         if usernameTextField.text == "hello@domain.com" && passwordTextField.text == "password" {
             performSegue(withIdentifier: "showHomeScreen", sender: self)
         } else {
             let alert = UIAlertController(title: "Ooooop", message: "Wrong username or password", preferredStyle: .alert)
-            
+
             alert.addAction(UIAlertAction(title: "Try again", style: .default, handler: nil))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
+
             self.present(alert, animated: true)
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.accessibilityIdentifier = Accessibility.Login.mainView
         usernameTextField.accessibilityIdentifier = Accessibility.Login.TextField.userName
         passwordTextField.accessibilityIdentifier = Accessibility.Login.TextField.password

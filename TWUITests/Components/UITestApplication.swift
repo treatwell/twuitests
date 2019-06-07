@@ -20,21 +20,21 @@ protocol XCUIApplicationStarter {
 
 public final class UITestApplication: XCUIApplication {
     private var server: HTTPDynamicStubing?
-    
+
     func setUp() {}
-    
+
     func tearDown() {
         server?.stop()
     }
-    
+
     public func serverUpdate(with stubInfo: APIStubInfo) {
         server?.update(with: stubInfo)
     }
-    
+
     public func replaceValue(of key: String, with value: String, in stub: APIStubInfo) {
         replaceValues(of: [key: value], in: stub)
     }
-    
+
     public func replaceValues(of items: [String: String], in stub: APIStubInfo) {
         server?.replaceValues(of: items, in: stub)
     }

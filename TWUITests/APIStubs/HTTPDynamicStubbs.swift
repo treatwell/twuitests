@@ -27,7 +27,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
     private let server: HttpServer
     private let appID: String
     private let port: UInt16
-    
+
     init(
         fileManager: FileManager = .default,
         server: HttpServer = HttpServer(),
@@ -41,7 +41,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         self.port = port
         setup(initialStubs: initialStubs)
     }
-    
+
     func start() {
         do {
             try server.start(port)
@@ -49,28 +49,28 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             showError("Failed to start local server \(error.localizedDescription)")
         }
     }
-    
+
     func stop() {
         server.stop()
     }
-    
+
     func update(with stubInfo: APIStubInfo) {
         setupStub(stubInfo)
     }
-    
+
     func replaceValues(of items: [String: String], in stub: APIStubInfo) {
         do {
-            guard let json = getJSONObject(from: stub) else  { return }
+            guard let json = getJSONObject(from: stub) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             guard var string = String(data: data, encoding: .utf8) else { return }
-            
+
             for (key, value) in items {
                 string = string.replacingOccurrences(
                     of: "\"\(key)\"\\s?:\\s?\".*\"",
                     with: "\"\(key)\" : \"\(value)\"",
                     options: .regularExpression)
             }
-            
+
             if let data = string.data(using: .utf8) {
                 stubJSON(object: dataToJSON(data: data), for: stub)
             }
@@ -78,7 +78,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             print(error)
         }
     }
-    
+
     private var stubsDirectory: URL {
         guard let simulatorSharedDir = ProcessInfo().environment["SIMULATOR_SHARED_RESOURCES_DIRECTORY"] else {
             showError("Cannot get Caches directory")
@@ -94,43 +94,43 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         } catch {
             showError("Failed to create shared folder \(finalSharedAPIStubsDirURL.lastPathComponent) in simulator Caches directory at \(cachesDirURL)")
         }
-        
+
         return finalSharedAPIStubsDirURL
     }
-    
+
     private func setup(initialStubs: [APIStubInfo]) {
         for stub in initialStubs {
             setupStub(stub)
         }
     }
-    
+
     private func getJSONObject(from stub: APIStubInfo) -> Any? {
         var directory = stubsDirectory
         directory.appendPathComponent(stub.jsonFilename + ".json")
         let filePath = directory.path
-        
+
         guard fileManager.fileExists(atPath: filePath) else {
             showError("File does not exist: \(filePath)")
         }
-        
+
         guard let data = fileManager.contents(atPath: filePath) else {
             showError("Data does not exist: \(filePath)")
         }
-        
+
         return dataToJSON(data: data)
     }
-    
+
     private func setupStub(_ stub: APIStubInfo) {
         stubJSON(object: getJSONObject(from: stub), for: stub)
     }
-    
+
     private func stubJSON(object json: Any?, for stub: APIStubInfo) {
         // Swifter makes it very easy to create stubbed responses
         let response: ((HttpRequest) -> HttpResponse) = { _ in
             let response = HttpResponse.ok(.json(json as AnyObject))
             return response
         }
-        
+
         switch stub.method {
         case .GET : server.GET[stub.url] = response
         case .POST: server.POST[stub.url] = response
@@ -138,7 +138,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         case .DELETE: server.DELETE[stub.url] = response
         }
     }
-    
+
     private func dataToJSON(data: Data) -> Any? {
         do {
             return try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
@@ -147,7 +147,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         }
         return nil
     }
-    
+
     private func showError(_ message: String) -> Never {
         preconditionFailure(message)
     }

@@ -33,13 +33,13 @@ extension Configuration {
         dictionary[ConfigurationKeys.isFirstTimeUser] = String(Bool(true))
         return self
     }
-    
+
     func isUser(_ userName: String, password: String) -> Self {
         dictionary[ConfigurationKeys.isUser] = userName + "::" + password
         apiConfiguration.apiStubs.append(Stub.Authentication.success)
         return self
     }
-    
+
     func isLoggedInUser() -> Self {
         return isUser("username@domain.com", password: "password")
     }

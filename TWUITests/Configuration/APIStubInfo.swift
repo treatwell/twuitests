@@ -26,7 +26,7 @@ public struct APIStubInfo {
     let url: String
     let jsonFilename: String
     let method: HTTPMethod
-    
+
     public init(
         statusCode: Int,
         url: String,
