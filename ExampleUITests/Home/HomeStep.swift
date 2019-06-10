@@ -17,8 +17,6 @@ import XCTest
 
 final class HomeStep: UITestBase, Step {
     lazy var homePage = HomePage(app: app)
-    
-    //
 }
 
 // MARK: - Validation

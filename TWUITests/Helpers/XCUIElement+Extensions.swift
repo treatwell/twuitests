@@ -21,11 +21,11 @@ public extension XCUIElement {
         XCTWaiter().wait(for: [expectation], timeout: 5)
         XCTAssertTrue(exists, "Element \(identifier) should exists after delay")
     }
-    
+
     func exists() {
         XCTAssertTrue(exists, "Element \(identifier) should exists")
     }
-    
+
     /**
      Removes any current text in the field before typing in the new value
      - Parameter text: the text to enter into the field
@@ -35,11 +35,11 @@ public extension XCUIElement {
             XCTFail("Tried to clear and enter text into a non string value")
             return
         }
-        
+
         self.tap()
-        
+
         let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: stringValue.count)
-        
+
         self.typeText(deleteString)
         self.typeText(text)
     }

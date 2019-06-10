@@ -16,14 +16,14 @@ import TWUITests
 import XCTest
 
 final class LoginUITests: UITestCase {
-    
+
     func testFirstTimeUserLoginScreenIsVisible() {
         start(using: Configuration()
             .isFirstTimeUser()
         )
         .loginStep.loginScreenIsVisible()
     }
-    
+
     func testEmptyUsernameOrPasswordShowsAlert() {
         start(using: Configuration()
             .isFirstTimeUser()
@@ -31,7 +31,7 @@ final class LoginUITests: UITestCase {
         .loginStep.providesEmptyCredentials()
         .loginStep.errorAlertIsVisible()
     }
-    
+
     func testThatUserCanLogin() {
         start(using: Configuration()
             .isFirstTimeUser()

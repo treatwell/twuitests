@@ -17,17 +17,17 @@ import Foundation
 struct Accessibility {
     struct Login {
         static let mainView = "login_screen.main_view"
-        
+
         struct TextField {
             static let userName = "login_screen.textfield.username"
             static let password = "login_screen.textfield.password"
         }
-        
+
         struct Button {
             static let login = "login_screen.button.login"
         }
     }
-    
+
     struct Home {
         static let mainView = "home_screen.main_view"
     }
