@@ -43,6 +43,24 @@ public extension XCUIElement {
         self.typeText(deleteString)
         self.typeText(text)
     }
+
+    /**
+     Scroll up in scroll view until XCUIElement is found or maximum swipe
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe up actions
+     Return: true if element was found while swiping up
+     */
+    func swipeUp(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        for _ in 0..<maxSwipes {
+            if element.exists {
+                return true
+            } else {
+                swipeUp()
+            }
+        }
+        return false
+    }
 }
 
 public extension XCUIElement {
