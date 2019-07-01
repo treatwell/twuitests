@@ -160,6 +160,8 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
                 return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
                    try? writer.write(Data(data))
                 })
+            case 500:
+                return .internalServerError
             default:
                 return .ok(.json(self.dataToJSON(data: data) as AnyObject))
             }
