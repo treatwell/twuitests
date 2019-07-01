@@ -60,7 +60,8 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     func replaceValues(of items: [String: String], in stub: APIStubInfo) {
         do {
-            guard let json = getJSONObject(from: stub) else { return }
+            let dataObject = getDataObject(from: stub)
+            guard let json = dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             guard var string = String(data: data, encoding: .utf8) else { return }
 
@@ -72,7 +73,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             }
 
             if let data = string.data(using: .utf8) {
-                stubJSON(object: dataToJSON(data: data), for: stub)
+                stubJSON(object: data, for: stub)
             }
         } catch let error {
             print(error)
@@ -104,7 +105,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         }
     }
 
-    private func getJSONObject(from stub: APIStubInfo) -> Any? {
+    private func getDataObject(from stub: APIStubInfo) -> Data {
         var directory = stubsDirectory
         directory.appendPathComponent(stub.jsonFilename + ".json")
         let filePath = directory.path
@@ -117,26 +118,53 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             showError("Data does not exist: \(filePath)")
         }
 
-        return dataToJSON(data: data)
+        return data
     }
 
     private func setupStub(_ stub: APIStubInfo) {
-        stubJSON(object: getJSONObject(from: stub), for: stub)
+        let data = getDataObject(from: stub)
+        stubJSON(object: data, for: stub)
     }
 
-    private func stubJSON(object json: Any?, for stub: APIStubInfo) {
-        // Swifter makes it very easy to create stubbed responses
-        let response: ((HttpRequest) -> HttpResponse) = { _ in
-            let response = HttpResponse.ok(.json(json as AnyObject))
-            return response
-        }
-
+    private func stubJSON(object data: Data, for stub: APIStubInfo) {
+        let response = createResponse(object: data, for: stub)
         switch stub.method {
-        case .GET : server.GET[stub.url] = response
-        case .POST: server.POST[stub.url] = response
-        case .PUT: server.PUT[stub.url] = response
-        case .DELETE: server.DELETE[stub.url] = response
+        case .GET :
+            server.GET[stub.url] = response
+        case .POST:
+            server.POST[stub.url] = response
+        case .PUT:
+            server.PUT[stub.url] = response
+        case .DELETE:
+            server.DELETE[stub.url] = response
         }
+    }
+
+    private func createResponse(object data: Data, for stub: APIStubInfo) -> ((HttpRequest) -> HttpResponse) {
+        // Swifter makes it very easy to create stubbed responses
+        let response: ((HttpRequest) -> HttpResponse) = { [weak self] _ in
+            guard let self = self else { return .notFound}
+            switch stub.statusCode {
+            case 200:
+                return .ok(.json(self.dataToJSON(data: data) as AnyObject))
+            case 400:
+                return .badRequest(nil)
+            case 401:
+                return .unauthorized
+            case 403:
+                return .forbidden
+            case 404:
+                return .notFound
+            case 406:
+                let responseHeader: [String: String] = ["Content-Type": "application/json"]
+                return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
+                   try? writer.write(Data(data))
+                })
+            default:
+                return .ok(.json(self.dataToJSON(data: data) as AnyObject))
+            }
+        }
+        return response
     }
 
     private func dataToJSON(data: Data) -> Any? {
