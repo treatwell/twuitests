@@ -60,7 +60,8 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     func replaceValues(of items: [String: String], in stub: APIStubInfo) {
         do {
-            guard let json = getJSONObject(from: stub) else { return }
+            let dataObject = getDataObject(from: stub)
+            guard let json = dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
             guard var string = String(data: data, encoding: .utf8) else { return }
 
@@ -72,7 +73,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             }
 
             if let data = string.data(using: .utf8) {
-                stubJSON(object: dataToJSON(data: data), for: stub)
+                stubJSON(object: data, for: stub)
             }
         } catch let error {
             print(error)
@@ -104,7 +105,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         }
     }
 
-    private func getJSONObject(from stub: APIStubInfo) -> Any? {
+    private func getDataObject(from stub: APIStubInfo) -> Data {
         var directory = stubsDirectory
         directory.appendPathComponent(stub.jsonFilename + ".json")
         let filePath = directory.path
@@ -117,26 +118,55 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             showError("Data does not exist: \(filePath)")
         }
 
-        return dataToJSON(data: data)
+        return data
     }
 
     private func setupStub(_ stub: APIStubInfo) {
-        stubJSON(object: getJSONObject(from: stub), for: stub)
+        let data = getDataObject(from: stub)
+        stubJSON(object: data, for: stub)
     }
 
-    private func stubJSON(object json: Any?, for stub: APIStubInfo) {
+    private func stubJSON(object data: Data, for stub: APIStubInfo) {
+        let response = createResponse(object: data, for: stub)
+        switch stub.method {
+        case .GET :
+            server.GET[stub.url] = response
+        case .POST:
+            server.POST[stub.url] = response
+        case .PUT:
+            server.PUT[stub.url] = response
+        case .DELETE:
+            server.DELETE[stub.url] = response
+        }
+    }
+
+    private func createResponse(object data: Data?, for stub: APIStubInfo) -> ((HttpRequest) -> HttpResponse) {
+        var json: AnyObject?
+        if let jsonData = data {
+            json = dataToJSON(data: jsonData) as AnyObject
+        }
         // Swifter makes it very easy to create stubbed responses
         let response: ((HttpRequest) -> HttpResponse) = { _ in
-            let response = HttpResponse.ok(.json(json as AnyObject))
-            return response
+            switch stub.statusCode {
+            case 200:
+                return .okResponse(json: json)
+            case 400:
+                return .badRequest(nil)
+            case 401:
+                return .unauthorizedResponse(data: data)
+            case 403:
+                return .forbidden
+            case 404:
+                return .notFound
+            case 406:
+                return .notAcceptableResponse(data: data)
+            case 500:
+                return .internalServerError
+            default:
+                return .okResponse(json: json)
+            }
         }
-
-        switch stub.method {
-        case .GET : server.GET[stub.url] = response
-        case .POST: server.POST[stub.url] = response
-        case .PUT: server.PUT[stub.url] = response
-        case .DELETE: server.DELETE[stub.url] = response
-        }
+        return response
     }
 
     private func dataToJSON(data: Data) -> Any? {
@@ -150,5 +180,38 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     private func showError(_ message: String) -> Never {
         preconditionFailure(message)
+    }
+}
+
+private extension HttpResponse {
+    static var responseHeader: [String: String] {
+        return ["Content-Type": "application/json"]
+    }
+
+    static func okResponse(json: AnyObject?) -> HttpResponse {
+        if let jsonData = json {
+            return .ok(.json(jsonData))
+        } else {
+            return .ok(.text(""))
+        }
+    }
+
+    static func unauthorizedResponse(data: Data?) -> HttpResponse {
+        if let jsonData = data {
+            return .raw(401, "UNAUTHORIZED", responseHeader, { writer in
+                try? writer.write(Data(jsonData))
+            })
+        } else {
+            return .unauthorized
+        }
+    }
+    static func notAcceptableResponse(data: Data?) -> HttpResponse {
+        if let jsonData = data {
+            return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
+                try? writer.write(Data(jsonData))
+            })
+        } else {
+            return .raw(406, "NOT_ACCEPTABLE", [:], { _ in })
+        }
     }
 }
