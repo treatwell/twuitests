@@ -140,30 +140,30 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         }
     }
 
-    private func createResponse(object data: Data, for stub: APIStubInfo) -> ((HttpRequest) -> HttpResponse) {
+    private func createResponse(object data: Data?, for stub: APIStubInfo) -> ((HttpRequest) -> HttpResponse) {
+        var json: AnyObject?
+        if let jsonData = data {
+            json = dataToJSON(data: jsonData) as AnyObject
+        }
         // Swifter makes it very easy to create stubbed responses
-        let response: ((HttpRequest) -> HttpResponse) = { [weak self] _ in
-            guard let self = self else { return .notFound}
+        let response: ((HttpRequest) -> HttpResponse) = { _ in
             switch stub.statusCode {
             case 200:
-                return .ok(.json(self.dataToJSON(data: data) as AnyObject))
+                return .okResponse(json: json)
             case 400:
                 return .badRequest(nil)
             case 401:
-                return .unauthorized
+                return .unauthorizedResponse(data: data)
             case 403:
                 return .forbidden
             case 404:
                 return .notFound
             case 406:
-                let responseHeader: [String: String] = ["Content-Type": "application/json"]
-                return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
-                   try? writer.write(Data(data))
-                })
+                return .notAcceptableResponse(data: data)
             case 500:
                 return .internalServerError
             default:
-                return .ok(.json(self.dataToJSON(data: data) as AnyObject))
+                return .okResponse(json: json)
             }
         }
         return response
@@ -180,5 +180,38 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     private func showError(_ message: String) -> Never {
         preconditionFailure(message)
+    }
+}
+
+private extension HttpResponse {
+    static var responseHeader: [String: String] {
+        return ["Content-Type": "application/json"]
+    }
+
+    static func okResponse(json: AnyObject?) -> HttpResponse {
+        if let jsonData = json {
+            return .ok(.json(jsonData))
+        } else {
+            return .ok(.text(""))
+        }
+    }
+
+    static func unauthorizedResponse(data: Data?) -> HttpResponse {
+        if let jsonData = data {
+            return .raw(401, "UNAUTHORIZED", responseHeader, { writer in
+                try? writer.write(Data(jsonData))
+            })
+        } else {
+            return .unauthorized
+        }
+    }
+    static func notAcceptableResponse(data: Data?) -> HttpResponse {
+        if let jsonData = data {
+            return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
+                try? writer.write(Data(jsonData))
+            })
+        } else {
+            return .raw(406, "NOT_ACCEPTABLE", [:], { _ in })
+        }
     }
 }
