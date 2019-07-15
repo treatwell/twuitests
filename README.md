@@ -1,7 +1,5 @@
 <div align="center">  
     
-#### UITests helper by    
-    
 <a href="https://treatwell.com/tech/">
 <img style="border-radius: 10%;" src="https://user-images.githubusercontent.com/4553194/61220140-96ec6900-a70d-11e9-9795-cdd61069eb8b.jpg" />
 </a>
