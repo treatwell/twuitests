@@ -63,17 +63,16 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo) {
         transform({
-            self.regexModifier.apply(modification: modification, in: $0)
+            try self.regexModifier.apply(modification: modification, in: $0)
         }, in: stub)
     }
 
-    private func transform(_ modifyFn: (Data) -> Data?, in stub: APIStubInfo) {
+    private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) {
         do {
             let dataObject = getDataObject(from: stub)
             guard let json = dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            guard let modifiedData = modifyFn(data) else { return }
-            stubJSON(object: modifiedData, for: stub)
+            stubJSON(object: try modifyFn(data), for: stub)
         } catch let error {
             print(error)
         }

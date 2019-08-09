@@ -15,13 +15,21 @@
 import Foundation
 
 struct RegexJSONModifier {
+
+    enum ReplacementError: Error {
+        case couldNotMakeStringFromData
+        case couldNotMakeDataFromString
+    }
+
     enum Modification {
         case replaceKeyValues([String: String])
         case replaceValues([String: String])
     }
 
-    func apply(modification: Modification, in input: Data) -> Data? {
-        guard var string = String(data: input, encoding: .utf8) else { return nil }
+    func apply(modification: Modification, in input: Data) throws -> Data {
+        guard var string = String(data: input, encoding: .utf8) else {
+            throw ReplacementError.couldNotMakeStringFromData
+        }
 
         switch modification {
         case let .replaceKeyValues(items):
@@ -29,16 +37,21 @@ struct RegexJSONModifier {
                 string = string.replacingOccurrences(
                     of: "\"\(key)\"\\s?:\\s?\".*\"",
                     with: "\"\(key)\" : \"\(value)\"",
-                    options: .regularExpression)
+                    options: .regularExpression
+                )
             }
         case let .replaceValues(items):
             for (oldVal, newVal) in items {
                 string = string.replacingOccurrences(
                     of: ":\\s?\"\(oldVal)\"",
                     with: ": \"\(newVal)\"",
-                    options: .regularExpression)
+                    options: .regularExpression
+                )
             }
         }
-        return string.data(using: .utf8)
+        guard let result = string.data(using: .utf8) else {
+            throw ReplacementError.couldNotMakeDataFromString
+        }
+        return result
     }
 }

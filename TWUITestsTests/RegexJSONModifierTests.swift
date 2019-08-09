@@ -15,15 +15,10 @@
 import XCTest
 @testable import TWUITests
 
-class TWUITestsTests: XCTestCase {
+class RegexJSONModifierTests: XCTestCase {
 
-    private var modifier: RegexJSONModifier!
-    private var jsonInput: Data!
-
-    override func setUp() {
-        super.setUp()
-        modifier = RegexJSONModifier()
-        jsonInput = """
+    private var sut: RegexJSONModifier!
+    private var jsonInput = """
         {
             "k1" : "v1",
             "k2" : "v4",
@@ -33,22 +28,25 @@ class TWUITestsTests: XCTestCase {
                 "k3" : "v1"
             }]
         }
-        """.data(using: .utf8) ?? Data()
+        """.data(using: .utf8)!
+
+    override func setUp() {
+        super.setUp()
+        sut = RegexJSONModifier()
     }
 
     override func tearDown() {
-        modifier = nil
-        jsonInput = nil
+        sut = nil
         super.tearDown()
     }
 
-    func testKeyValuesReplacement() {
-        let result = modifier.apply(modification: .replaceKeyValues([
+    func testKeyValuesReplacement() throws {
+        let result = try sut.apply(modification: .replaceKeyValues([
             "k1": "v9",
             "k9": "v99",
             "k3": "v13"
         ]), in: jsonInput)
-        let resultStr = String(data: result ?? Data(), encoding: .utf8)
+        let resultStr = String(data: result, encoding: .utf8)
         let exp = """
         {
             "k1" : "v9",
@@ -63,13 +61,13 @@ class TWUITestsTests: XCTestCase {
         XCTAssertEqual(resultStr, exp)
     }
 
-    func testValuesReplacement() {
-        let result = modifier.apply(modification: .replaceValues([
+    func testValuesReplacement() throws {
+        let result = try sut.apply(modification: .replaceValues([
             "v4": "v99",
             "k2": "v77",
             "v3": "v90"
         ]), in: jsonInput)
-        let resultStr = String(data: result ?? Data(), encoding: .utf8)
+        let resultStr = String(data: result, encoding: .utf8)
         let exp = """
         {
             "k1" : "v1",
