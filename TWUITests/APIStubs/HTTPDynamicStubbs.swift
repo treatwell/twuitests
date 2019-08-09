@@ -19,7 +19,7 @@ protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
     func start()
     func stop()
-    func replaceValues(of items: [String: String], in stub: APIStubInfo)
+    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo)
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
@@ -27,11 +27,13 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
     private let server: HttpServer
     private let appID: String
     private let port: UInt16
+    private let regexModifier: RegexJSONModifier
 
     init(
         fileManager: FileManager = .default,
         server: HttpServer = HttpServer(),
         initialStubs: [APIStubInfo] = HTTPDynamicStubsList().initialStubs,
+        regexModifier: RegexJSONModifier = RegexJSONModifier(),
         appID: String,
         port: UInt16
     ) {
@@ -39,6 +41,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         self.server = server
         self.appID = appID
         self.port = port
+        self.regexModifier = regexModifier
         setup(initialStubs: initialStubs)
     }
 
@@ -58,23 +61,18 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         setupStub(stubInfo)
     }
 
-    func replaceValues(of items: [String: String], in stub: APIStubInfo) {
+    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo) {
+        transform({
+            try self.regexModifier.apply(modification: modification, in: $0)
+        }, in: stub)
+    }
+
+    private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) {
         do {
             let dataObject = getDataObject(from: stub)
             guard let json = dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            guard var string = String(data: data, encoding: .utf8) else { return }
-
-            for (key, value) in items {
-                string = string.replacingOccurrences(
-                    of: "\"\(key)\"\\s?:\\s?\".*\"",
-                    with: "\"\(key)\" : \"\(value)\"",
-                    options: .regularExpression)
-            }
-
-            if let data = string.data(using: .utf8) {
-                stubJSON(object: data, for: stub)
-            }
+            stubJSON(object: try modifyFn(data), for: stub)
         } catch let error {
             print(error)
         }

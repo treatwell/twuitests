@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "03A1579A22FD66B700A60090"
+               BuildableName = "TWUITestsTests.xctest"
+               BlueprintName = "TWUITestsTests"
+               ReferencedContainer = "container:TWUITests.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "70D2FF152271F9C7008B37F4"
+            BuildableName = "TWUITests.framework"
+            BlueprintName = "TWUITests"
+            ReferencedContainer = "container:TWUITests.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
