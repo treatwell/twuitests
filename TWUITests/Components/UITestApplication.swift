@@ -35,6 +35,10 @@ public final class UITestApplication: XCUIApplication {
         replaceValues(of: [key: value], in: stub)
     }
 
+    public func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
+        server?.replaceValues(withOldToNewMap: oldToNewMap, in: stub)
+    }
+
     public func replaceValues(of items: [String: String], in stub: APIStubInfo) {
         server?.replaceValues(of: items, in: stub)
     }

@@ -20,6 +20,7 @@ protocol HTTPDynamicStubing {
     func start()
     func stop()
     func replaceValues(of items: [String: String], in stub: APIStubInfo)
+    func replaceValues(withOldToNewMap: [String: String], in stub: APIStubInfo)
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
@@ -67,12 +68,18 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         }, in: stub)
     }
 
-    private func transform(_ fn: (Data) -> Data?, in stub: APIStubInfo) {
+    func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
+        transform({
+            self.regexModifier.apply(modification: .replaceValues(oldToNewMap), in: $0)
+        }, in: stub)
+    }
+
+    private func transform(_ modifyFn: (Data) -> Data?, in stub: APIStubInfo) {
         do {
             let dataObject = getDataObject(from: stub)
             guard let json = dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            guard let modifiedData = fn(data) else { return }
+            guard let modifiedData = modifyFn(data) else { return }
             stubJSON(object: modifiedData, for: stub)
         } catch let error {
             print(error)

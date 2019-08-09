@@ -17,6 +17,7 @@ import Foundation
 struct RegexJSONModifier {
     enum Modification {
         case replaceKeyValues([String: String])
+        case replaceValues([String: String])
     }
 
     func apply(modification: Modification, in input: Data) -> Data? {
@@ -28,6 +29,13 @@ struct RegexJSONModifier {
                 string = string.replacingOccurrences(
                     of: "\"\(key)\"\\s?:\\s?\".*\"",
                     with: "\"\(key)\" : \"\(value)\"",
+                    options: .regularExpression)
+            }
+        case let .replaceValues(items):
+            for (oldVal, newVal) in items {
+                string = string.replacingOccurrences(
+                    of: ":\\s?\"\(oldVal)\"",
+                    with: ": \"\(newVal)\"",
                     options: .regularExpression)
             }
         }

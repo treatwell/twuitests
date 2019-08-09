@@ -62,4 +62,25 @@ class TWUITestsTests: XCTestCase {
         """
         XCTAssertEqual(resultStr, exp)
     }
+
+    func testValuesReplacement() {
+        let result = modifier.apply(modification: .replaceValues([
+            "v4": "v99",
+            "k2": "v77",
+            "v3": "v90"
+        ]), in: jsonInput)
+        let resultStr = String(data: result ?? Data(), encoding: .utf8)
+        let exp = """
+        {
+            "k1" : "v1",
+            "k2" : "v99",
+            "k4" : [{
+                "k1" : "v99",
+                "k4" : "v90",
+                "k3" : "v1"
+            }]
+        }
+        """
+        XCTAssertEqual(resultStr, exp)
+    }
 }
