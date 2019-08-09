@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03A157A022FD66B700A60090 /* TWUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D2FF162271F9C7008B37F4 /* TWUITests.framework */; };
+		03A157A722FD952C00A60090 /* RegexJSONModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */; };
+		03A157A922FD954E00A60090 /* RegexJSONModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A157A822FD954E00A60090 /* RegexJSONModifier.swift */; };
 		1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */; };
 		1FE86220228D7197003EA159 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF8B227319DE008B37F4 /* AccessibilityIdentifiers.swift */; };
 		70D2FF1B2271F9C7008B37F4 /* TWUITests.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D2FF192271F9C7008B37F4 /* TWUITests.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,6 +51,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		03A157A122FD66B700A60090 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70D2FF0D2271F9C7008B37F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70D2FF152271F9C7008B37F4;
+			remoteInfo = TWUITests;
+		};
 		70D2FF392271F9D4008B37F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 70D2FF0D2271F9C7008B37F4 /* Project object */;
@@ -58,6 +68,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03A1579B22FD66B700A60090 /* TWUITestsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TWUITestsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		03A1579F22FD66B700A60090 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexJSONModifierTests.swift; sourceTree = "<group>"; };
+		03A157A822FD954E00A60090 /* RegexJSONModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexJSONModifier.swift; sourceTree = "<group>"; };
 		1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		70D2FF162271F9C7008B37F4 /* TWUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TWUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D2FF192271F9C7008B37F4 /* TWUITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TWUITests.h; sourceTree = "<group>"; };
@@ -102,6 +116,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		03A1579822FD66B700A60090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03A157A022FD66B700A60090 /* TWUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70D2FF132271F9C7008B37F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,10 +152,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03A1579C22FD66B700A60090 /* TWUITestsTests */ = {
+			isa = PBXGroup;
+			children = (
+				03A1579F22FD66B700A60090 /* Info.plist */,
+				03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */,
+			);
+			path = TWUITestsTests;
+			sourceTree = "<group>";
+		};
 		70D2FF0C2271F9C7008B37F4 = {
 			isa = PBXGroup;
 			children = (
 				70D2FF182271F9C7008B37F4 /* TWUITests */,
+				03A1579C22FD66B700A60090 /* TWUITestsTests */,
 				70D2FF262271F9D4008B37F4 /* Example */,
 				70D2FF3B2271F9D5008B37F4 /* ExampleUITests */,
 				70D2FF172271F9C7008B37F4 /* Products */,
@@ -147,6 +179,7 @@
 				70D2FF162271F9C7008B37F4 /* TWUITests.framework */,
 				70D2FF252271F9D4008B37F4 /* Example.app */,
 				70D2FF382271F9D4008B37F4 /* ExampleUITests.xctest */,
+				03A1579B22FD66B700A60090 /* TWUITestsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -205,6 +238,7 @@
 			children = (
 				70D2FF4C227202C6008B37F4 /* HTTPDynamicStubbs.swift */,
 				70D2FF4E227202D7008B37F4 /* HTTPStubsList.swift */,
+				03A157A822FD954E00A60090 /* RegexJSONModifier.swift */,
 			);
 			path = APIStubs;
 			sourceTree = "<group>";
@@ -295,6 +329,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		03A1579A22FD66B700A60090 /* TWUITestsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03A157A522FD66B700A60090 /* Build configuration list for PBXNativeTarget "TWUITestsTests" */;
+			buildPhases = (
+				03A1579722FD66B700A60090 /* Sources */,
+				03A1579822FD66B700A60090 /* Frameworks */,
+				03A1579922FD66B700A60090 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				03A157A222FD66B700A60090 /* PBXTargetDependency */,
+			);
+			name = TWUITestsTests;
+			productName = TWUITestsTests;
+			productReference = 03A1579B22FD66B700A60090 /* TWUITestsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		70D2FF152271F9C7008B37F4 /* TWUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70D2FF1E2271F9C7008B37F4 /* Build configuration list for PBXNativeTarget "TWUITests" */;
@@ -360,6 +412,9 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Treatwell;
 				TargetAttributes = {
+					03A1579A22FD66B700A60090 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
 					70D2FF152271F9C7008B37F4 = {
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1020;
@@ -387,6 +442,7 @@
 			projectRoot = "";
 			targets = (
 				70D2FF152271F9C7008B37F4 /* TWUITests */,
+				03A1579A22FD66B700A60090 /* TWUITestsTests */,
 				70D2FF242271F9D4008B37F4 /* Example */,
 				70D2FF372271F9D4008B37F4 /* ExampleUITests */,
 			);
@@ -394,6 +450,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		03A1579922FD66B700A60090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70D2FF142271F9C7008B37F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -462,6 +525,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		03A1579722FD66B700A60090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03A157A722FD952C00A60090 /* RegexJSONModifierTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70D2FF122271F9C7008B37F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -472,6 +543,7 @@
 				70D2FF572272E9C4008B37F4 /* PageObjectModel.swift in Sources */,
 				70D2FF622272EAFB008B37F4 /* UITestCase+Given.swift in Sources */,
 				70D2FF692272EC0E008B37F4 /* XCTestCase+Extensions.swift in Sources */,
+				03A157A922FD954E00A60090 /* RegexJSONModifier.swift in Sources */,
 				70D2FF5422720372008B37F4 /* APIStubInfo.swift in Sources */,
 				70D2FF602272EAC2008B37F4 /* UITestApplication+Then.swift in Sources */,
 				70D2FF5D2272EA89008B37F4 /* UITestApplication.swift in Sources */,
@@ -516,6 +588,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		03A157A222FD66B700A60090 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70D2FF152271F9C7008B37F4 /* TWUITests */;
+			targetProxy = 03A157A122FD66B700A60090 /* PBXContainerItemProxy */;
+		};
 		70D2FF3A2271F9D4008B37F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 70D2FF242271F9D4008B37F4 /* Example */;
@@ -543,6 +620,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		03A157A322FD66B700A60090 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X5394XCRFK;
+				INFOPLIST_FILE = TWUITestsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treatwell.TWUITests.TWUITestsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		03A157A422FD66B700A60090 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X5394XCRFK;
+				INFOPLIST_FILE = TWUITestsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.treatwell.TWUITests.TWUITestsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		70D2FF1C2271F9C7008B37F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -820,6 +935,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		03A157A522FD66B700A60090 /* Build configuration list for PBXNativeTarget "TWUITestsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03A157A322FD66B700A60090 /* Debug */,
+				03A157A422FD66B700A60090 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		70D2FF102271F9C7008B37F4 /* Build configuration list for PBXProject "TWUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
