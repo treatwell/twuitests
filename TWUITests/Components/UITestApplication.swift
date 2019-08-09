@@ -36,11 +36,13 @@ public final class UITestApplication: XCUIApplication {
     }
 
     public func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
-        server?.replaceValues(withOldToNewMap: oldToNewMap, in: stub)
+        let modification = RegexJSONModifier.Modification.replaceValues(oldToNewMap)
+        server?.replace(with: modification, in: stub)
     }
 
     public func replaceValues(of items: [String: String], in stub: APIStubInfo) {
-        server?.replaceValues(of: items, in: stub)
+        let modification = RegexJSONModifier.Modification.replaceKeyValues(items)
+        server?.replace(with: modification, in: stub)
     }
 }
 

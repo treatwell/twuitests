@@ -19,8 +19,7 @@ protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
     func start()
     func stop()
-    func replaceValues(of items: [String: String], in stub: APIStubInfo)
-    func replaceValues(withOldToNewMap: [String: String], in stub: APIStubInfo)
+    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo)
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
@@ -62,15 +61,9 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         setupStub(stubInfo)
     }
 
-    func replaceValues(of items: [String: String], in stub: APIStubInfo) {
+    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo) {
         transform({
-            self.regexModifier.apply(modification: .replaceKeyValues(items), in: $0)
-        }, in: stub)
-    }
-
-    func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
-        transform({
-            self.regexModifier.apply(modification: .replaceValues(oldToNewMap), in: $0)
+            self.regexModifier.apply(modification: modification, in: $0)
         }, in: stub)
     }
 
