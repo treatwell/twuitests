@@ -15,11 +15,16 @@
 import Foundation
 import Swifter
 
+struct ReplacementJob {
+    let modification: RegexJSONModifier.Modification
+    let stub: APIStubInfo
+}
+
 protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
     func start()
     func stop()
-    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo)
+    func replace(with: ReplacementJob)
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
@@ -61,10 +66,10 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         setupStub(stubInfo)
     }
 
-    func replace(with modification: RegexJSONModifier.Modification, in stub: APIStubInfo) {
+    func replace(with job: ReplacementJob) {
         transform({
-            try self.regexModifier.apply(modification: modification, in: $0)
-        }, in: stub)
+            try self.regexModifier.apply(modification: job.modification, in: $0)
+        }, in: job.stub)
     }
 
     private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) {
