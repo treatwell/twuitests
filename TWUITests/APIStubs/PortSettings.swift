@@ -14,6 +14,10 @@ struct PortSettings {
         return retriesCount < maxRetriesCount
     }
 
+    var randomPort: UInt16? {
+        return portRange?.randomElement()
+    }
+
     mutating func retried() {
         retriesCount += 1
     }

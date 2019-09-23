@@ -51,7 +51,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         do {
             try server.start(portSettings.port)
         } catch let error as SocketError {
-            guard portSettings.canRetry, let newPort = portSettings.portRange?.randomElement() else {
+            guard portSettings.canRetry, let newPort = portSettings.randomPort else {
                 showError("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
             }
             portSettings.retried()
