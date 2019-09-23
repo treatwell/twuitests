@@ -17,15 +17,18 @@ import Foundation
 public struct APIConfiguration {
     public let appID: String
     public var port: UInt16
+    public var portRange: ClosedRange<UInt16>
     public var apiStubs: [APIStubInfo]
 
     public init(
         port: UInt16,
+        portRange: ClosedRange<UInt16>,
         apiStubs: [APIStubInfo],
         appID: String = ""
     ) {
         self.appID = appID
         self.port = port
+        self.portRange = portRange
         self.apiStubs = apiStubs
     }
 }

@@ -10,6 +10,9 @@
 		03A157A022FD66B700A60090 /* TWUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D2FF162271F9C7008B37F4 /* TWUITests.framework */; };
 		03A157A722FD952C00A60090 /* RegexJSONModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */; };
 		03A157A922FD954E00A60090 /* RegexJSONModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A157A822FD954E00A60090 /* RegexJSONModifier.swift */; };
+		1F1628A023378D0B002DE2BF /* PortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16289F23378D0B002DE2BF /* PortSettings.swift */; };
+		1F1628A223378D4E002DE2BF /* ReplacementJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A123378D4E002DE2BF /* ReplacementJob.swift */; };
+		1F1628A423378D7C002DE2BF /* HttpServerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */; };
 		1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */; };
 		1FE86220228D7197003EA159 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF8B227319DE008B37F4 /* AccessibilityIdentifiers.swift */; };
 		70D2FF1B2271F9C7008B37F4 /* TWUITests.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D2FF192271F9C7008B37F4 /* TWUITests.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,7 +23,7 @@
 		70D2FF322271F9D4008B37F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70D2FF302271F9D4008B37F4 /* LaunchScreen.storyboard */; };
 		70D2FF472271FA6A008B37F4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D2FF462271FA6A008B37F4 /* XCTest.framework */; };
 		70D2FF4A22720243008B37F4 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70D2FF4922720243008B37F4 /* Swifter.framework */; };
-		70D2FF4D227202C6008B37F4 /* HTTPDynamicStubbs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF4C227202C6008B37F4 /* HTTPDynamicStubbs.swift */; };
+		70D2FF4D227202C6008B37F4 /* HTTPDynamicStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF4C227202C6008B37F4 /* HTTPDynamicStubs.swift */; };
 		70D2FF4F227202D7008B37F4 /* HTTPStubsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF4E227202D7008B37F4 /* HTTPStubsList.swift */; };
 		70D2FF5222720343008B37F4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF5122720343008B37F4 /* Configuration.swift */; };
 		70D2FF5422720372008B37F4 /* APIStubInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF5322720372008B37F4 /* APIStubInfo.swift */; };
@@ -72,6 +75,9 @@
 		03A1579F22FD66B700A60090 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexJSONModifierTests.swift; sourceTree = "<group>"; };
 		03A157A822FD954E00A60090 /* RegexJSONModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexJSONModifier.swift; sourceTree = "<group>"; };
+		1F16289F23378D0B002DE2BF /* PortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSettings.swift; sourceTree = "<group>"; };
+		1F1628A123378D4E002DE2BF /* ReplacementJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementJob.swift; sourceTree = "<group>"; };
+		1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerProtocol.swift; sourceTree = "<group>"; };
 		1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		70D2FF162271F9C7008B37F4 /* TWUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TWUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D2FF192271F9C7008B37F4 /* TWUITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TWUITests.h; sourceTree = "<group>"; };
@@ -87,7 +93,7 @@
 		70D2FF3E2271F9D5008B37F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70D2FF462271FA6A008B37F4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		70D2FF4922720243008B37F4 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
-		70D2FF4C227202C6008B37F4 /* HTTPDynamicStubbs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPDynamicStubbs.swift; sourceTree = "<group>"; };
+		70D2FF4C227202C6008B37F4 /* HTTPDynamicStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPDynamicStubs.swift; sourceTree = "<group>"; };
 		70D2FF4E227202D7008B37F4 /* HTTPStubsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPStubsList.swift; sourceTree = "<group>"; };
 		70D2FF5122720343008B37F4 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		70D2FF5322720372008B37F4 /* APIStubInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStubInfo.swift; sourceTree = "<group>"; };
@@ -236,9 +242,12 @@
 		70D2FF4B227202AC008B37F4 /* APIStubs */ = {
 			isa = PBXGroup;
 			children = (
-				70D2FF4C227202C6008B37F4 /* HTTPDynamicStubbs.swift */,
+				70D2FF4C227202C6008B37F4 /* HTTPDynamicStubs.swift */,
 				70D2FF4E227202D7008B37F4 /* HTTPStubsList.swift */,
+				1F16289F23378D0B002DE2BF /* PortSettings.swift */,
 				03A157A822FD954E00A60090 /* RegexJSONModifier.swift */,
+				1F1628A123378D4E002DE2BF /* ReplacementJob.swift */,
+				1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */,
 			);
 			path = APIStubs;
 			sourceTree = "<group>";
@@ -537,8 +546,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F1628A223378D4E002DE2BF /* ReplacementJob.swift in Sources */,
 				70D2FF5222720343008B37F4 /* Configuration.swift in Sources */,
-				70D2FF4D227202C6008B37F4 /* HTTPDynamicStubbs.swift in Sources */,
+				70D2FF4D227202C6008B37F4 /* HTTPDynamicStubs.swift in Sources */,
+				1F1628A023378D0B002DE2BF /* PortSettings.swift in Sources */,
 				70D2FF642272EB39008B37F4 /* UITestApplication+When.swift in Sources */,
 				70D2FF572272E9C4008B37F4 /* PageObjectModel.swift in Sources */,
 				70D2FF622272EAFB008B37F4 /* UITestCase+Given.swift in Sources */,
@@ -553,6 +564,7 @@
 				70D2FF5B2272EA63008B37F4 /* UITestBase.swift in Sources */,
 				70D2FF6B2272EC24008B37F4 /* XCUIElementQuery+Extension.swift in Sources */,
 				70D2FF592272E9F9008B37F4 /* UITestCase.swift in Sources */,
+				1F1628A423378D7C002DE2BF /* HttpServerProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

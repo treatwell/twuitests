@@ -15,11 +15,6 @@
 import Foundation
 import Swifter
 
-struct ReplacementJob {
-    let modification: RegexJSONModifier.Modification
-    let stub: APIStubInfo
-}
-
 protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
     func start()
@@ -29,30 +24,39 @@ protocol HTTPDynamicStubing {
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
     private let fileManager: FileManager
-    private let server: HttpServer
+    private let server: HttpServerProtocol
     private let appID: String
-    private let port: UInt16
     private let regexModifier: RegexJSONModifier
+    private var portSettings: PortSettings
 
     init(
         fileManager: FileManager = .default,
-        server: HttpServer = HttpServer(),
+        server: HttpServerProtocol = HttpServer(),
         initialStubs: [APIStubInfo] = HTTPDynamicStubsList().initialStubs,
         regexModifier: RegexJSONModifier = RegexJSONModifier(),
         appID: String,
-        port: UInt16
+        port: UInt16,
+        portRange: ClosedRange<UInt16>?,
+        maxPortRetries: Int = 5
     ) {
         self.fileManager = fileManager
         self.server = server
         self.appID = appID
-        self.port = port
         self.regexModifier = regexModifier
+        self.portSettings = PortSettings(portRange: portRange, port: port, maxRetriesCount: maxPortRetries)
         setup(initialStubs: initialStubs)
     }
 
     func start() {
         do {
-            try server.start(port)
+            try server.start(portSettings.port)
+        } catch let error as SocketError {
+            guard portSettings.canRetry, let newPort = portSettings.portRange?.randomElement() else {
+                showError("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
+            }
+            portSettings.retried()
+            portSettings.port = newPort
+            start()
         } catch {
             showError("Failed to start local server \(error.localizedDescription)")
         }
@@ -68,8 +72,10 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     func replace(with job: ReplacementJob) {
         transform({
-            try self.regexModifier.apply(modification: job.modification, in: $0)
-        }, in: job.stub)
+                try self.regexModifier.apply(modification: job.modification, in: $0)
+            },
+            in: job.stub
+        )
     }
 
     private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) {
