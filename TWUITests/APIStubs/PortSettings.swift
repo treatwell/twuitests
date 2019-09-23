@@ -1,7 +1,7 @@
 struct PortSettings {
-    let portRange: ClosedRange<UInt16>?
-    let maxRetriesCount: Int
     var port: UInt16
+    let maxRetriesCount: Int
+    private let portRange: ClosedRange<UInt16>?
     private var retriesCount: Int = 0
 
     init(portRange: ClosedRange<UInt16>?, port: UInt16, maxRetriesCount: Int) {
