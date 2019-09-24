@@ -71,7 +71,7 @@ extension UITestApplication: XCUIApplicationStarter {
     }
 
     private func serverStart(with apiConfiguration: APIConfiguration) {
-        server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port, portRange: apiConfiguration.portRange)
+        server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
         server?.start()
         apiConfiguration.apiStubs.forEach {
             server?.update(with: $0)

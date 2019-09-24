@@ -13,6 +13,7 @@
 		1F1628A023378D0B002DE2BF /* PortSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F16289F23378D0B002DE2BF /* PortSettings.swift */; };
 		1F1628A223378D4E002DE2BF /* ReplacementJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A123378D4E002DE2BF /* ReplacementJob.swift */; };
 		1F1628A423378D7C002DE2BF /* HttpServerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */; };
+		1F5AD060233A1D3D0071E01E /* PortSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */; };
 		1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */; };
 		1FE86220228D7197003EA159 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF8B227319DE008B37F4 /* AccessibilityIdentifiers.swift */; };
 		70D2FF1B2271F9C7008B37F4 /* TWUITests.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D2FF192271F9C7008B37F4 /* TWUITests.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,6 +79,7 @@
 		1F16289F23378D0B002DE2BF /* PortSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSettings.swift; sourceTree = "<group>"; };
 		1F1628A123378D4E002DE2BF /* ReplacementJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementJob.swift; sourceTree = "<group>"; };
 		1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerProtocol.swift; sourceTree = "<group>"; };
+		1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSettingsTests.swift; sourceTree = "<group>"; };
 		1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		70D2FF162271F9C7008B37F4 /* TWUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TWUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D2FF192271F9C7008B37F4 /* TWUITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TWUITests.h; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				03A1579F22FD66B700A60090 /* Info.plist */,
 				03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */,
+				1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */,
 			);
 			path = TWUITestsTests;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03A157A722FD952C00A60090 /* RegexJSONModifierTests.swift in Sources */,
+				1F5AD060233A1D3D0071E01E /* PortSettingsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

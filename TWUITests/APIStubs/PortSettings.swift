@@ -1,24 +1,35 @@
 struct PortSettings {
-    var port: UInt16
     let maxRetriesCount: Int
-    private let portRange: ClosedRange<UInt16>?
+    private(set) var port: UInt16
+    private let portType: APIConfiguration.PortType
     private var retriesCount: Int = 0
 
-    init(portRange: ClosedRange<UInt16>?, port: UInt16, maxRetriesCount: Int) {
-        self.portRange = portRange
-        self.port = port
+    init(port: APIConfiguration.PortType, maxRetriesCount: Int) {
+        self.portType = port
         self.maxRetriesCount = maxRetriesCount
+        switch portType {
+        case .fixed(let port):
+           self.port = port
+        case .range(let portRange):
+            self.port = portRange.first!
+        }
     }
 
     var canRetry: Bool {
         return retriesCount < maxRetriesCount
     }
 
-    var randomPort: UInt16? {
-        return portRange?.randomElement()
+    mutating func retry() {
+        port = generatedPort
+        retriesCount += 1
     }
 
-    mutating func retried() {
-        retriesCount += 1
+    private var generatedPort: UInt16 {
+        switch portType {
+        case .range(let portRange):
+            return portRange.randomElement()!
+        case .fixed(let port):
+            return port
+        }
     }
 }

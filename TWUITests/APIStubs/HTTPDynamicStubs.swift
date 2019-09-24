@@ -35,15 +35,14 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         initialStubs: [APIStubInfo] = HTTPDynamicStubsList().initialStubs,
         regexModifier: RegexJSONModifier = RegexJSONModifier(),
         appID: String,
-        port: UInt16,
-        portRange: ClosedRange<UInt16>?,
+        port: APIConfiguration.PortType,
         maxPortRetries: Int = 5
     ) {
         self.fileManager = fileManager
         self.server = server
         self.appID = appID
         self.regexModifier = regexModifier
-        self.portSettings = PortSettings(portRange: portRange, port: port, maxRetriesCount: maxPortRetries)
+        self.portSettings = PortSettings(port: port, maxRetriesCount: maxPortRetries)
         setup(initialStubs: initialStubs)
     }
 
@@ -53,13 +52,11 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         } catch let error as SocketError {
             guard
                 case .bindFailed = error,
-                portSettings.canRetry,
-                let newPort = portSettings.randomPort
+                portSettings.canRetry
             else {
                 showError("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
             }
-            portSettings.retried()
-            portSettings.port = newPort
+            portSettings.retry()
             start()
         } catch {
             showError("Failed to start local server \(error.localizedDescription)")
