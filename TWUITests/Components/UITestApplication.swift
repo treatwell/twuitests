@@ -66,17 +66,20 @@ public final class UITestApplication: XCUIApplication {
 extension UITestApplication: XCUIApplicationStarter {
     // UI tests must launch the application that they test.
     func start(using configuration: Configuration) {
-        serverStart(with: configuration.apiConfiguration)
+        let port = serverStart(with: configuration.apiConfiguration)
+        configuration.update(port: port)
         set(configuration: configuration).launch()
     }
 
-    private func serverStart(with apiConfiguration: APIConfiguration) {
-        server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
-        server?.start()
+    private func serverStart(with apiConfiguration: APIConfiguration) -> UInt16 {
+        let server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
+        let port = server.start()
         apiConfiguration.apiStubs.forEach {
-            server?.update(with: $0)
+            server.update(with: $0)
         }
         replacementQueue.forEach(replaceOrQueue)
+        self.server = server
+        return port
     }
 
     private func set(configuration: Configuration) -> XCUIApplication {

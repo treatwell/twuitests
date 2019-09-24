@@ -17,7 +17,7 @@ import Swifter
 
 protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
-    func start()
+    func start() -> UInt16
     func stop()
     func replace(with: ReplacementJob)
 }
@@ -46,9 +46,10 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         setup(initialStubs: initialStubs)
     }
 
-    func start() {
+    func start() -> UInt16 {
         do {
             try server.start(portSettings.port)
+            return portSettings.port
         } catch let error as SocketError {
             guard
                 case .bindFailed = error,
@@ -57,7 +58,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
                 showError("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
             }
             portSettings.retry()
-            start()
+            return start()
         } catch {
             showError("Failed to start local server \(error.localizedDescription)")
         }
