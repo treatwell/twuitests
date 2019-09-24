@@ -19,3 +19,13 @@ public protocol Configuration: AnyObject {
     var dictionary: [String: String] { get set }
     var apiConfiguration: APIConfiguration { get set }
 }
+
+public enum ConfigurationKey {
+    public static let serverPort = "UI_TEST_SERVER_PORT"
+}
+
+extension Configuration {
+    func update(port: UInt16) {
+        dictionary[ConfigurationKey.serverPort] = String(port)
+    }
+}
