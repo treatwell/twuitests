@@ -16,8 +16,9 @@ import TWUITests
 
 final class Configuration: TWUITests.Configuration {
     var apiConfiguration: APIConfiguration = APIConfiguration(
-        port: 4567,
-        apiStubs: []// Add defaults API stubs here)
+        portRange: 9000...9999,
+        apiStubs: [],   // Add defaults API stubs here
+        appID: ""       // appID is used to specify stubs path
     )
 
     var dictionary: [String: String] = [
