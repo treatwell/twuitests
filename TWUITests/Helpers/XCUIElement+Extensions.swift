@@ -53,7 +53,7 @@ public extension XCUIElement {
      */
     func swipeUp(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
         for _ in 0..<maxSwipes {
-            if element.exists {
+            if element.exists && element.isHittable {
                 return true
             } else {
                 swipeUp()
