@@ -14,7 +14,7 @@
 
 import XCTest
 
-public extension XCTestCase {
+public extension UITestCase {
     func wait(for duration: TimeInterval) {
         let waitExpectation = expectation(description: "Waiting")
 
@@ -25,5 +25,11 @@ public extension XCTestCase {
 
         // We use a buffer here to avoid flakiness with Timer on CI
         waitForExpectations(timeout: duration + 0.5)
+    }
+
+    func wait(forTableView tableView: String, timeout: TimeInterval = 5) {
+        let loaded = NSPredicate(format: "count > 0")
+        let expectation = self.expectation(for: loaded, evaluatedWith: app.tables[tableView].cells, handler: nil)
+        wait(for: [expectation], timeout: timeout)
     }
 }
