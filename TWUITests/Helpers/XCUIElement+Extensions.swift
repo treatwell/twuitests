@@ -49,14 +49,55 @@ public extension XCUIElement {
      Parameters:
      - element: XCUIElement in scroll view to be found
      - maxSwipes: maximum swipe up actions
-     Return: true if element was found while swiping up
+     Return:
+       true if element was found while swiping up
      */
     func swipeUp(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
-        for _ in 0..<maxSwipes {
+        find(element: element, maxActions: maxSwipes, action: self.swipeUp() )
+    }
+
+    /**
+     Scroll Left in scroll view until XCUIElement is found or maximum swipe
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe up actions
+     Return:
+       true if element was found while swiping up
+     */
+    func swipeLeft(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeLeft() )
+    }
+
+    /**
+     Scroll Right in scroll view until XCUIElement is found or maximum swipe
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe up actions
+     Return:
+       true if element was found while swiping up
+     */
+    func swipeRight(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeRight() )
+    }
+
+    /**
+     Scroll down in scroll view until XCUIElement is found or maximum swipe
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe up actions
+     Return:
+       true if element was found while swiping up
+     */
+    func swipeDown(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeDown() )
+    }
+
+    func find(element: XCUIElement, maxActions: UInt, action: @autoclosure () -> Void) -> Bool {
+        for _ in 0..<maxActions {
             if element.exists && element.isHittable {
                 return true
             } else {
-                swipeUp()
+                action()
             }
         }
         return false
