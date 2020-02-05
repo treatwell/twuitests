@@ -36,7 +36,7 @@
 		70D2FF622272EAFB008B37F4 /* UITestCase+Given.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF612272EAFB008B37F4 /* UITestCase+Given.swift */; };
 		70D2FF642272EB39008B37F4 /* UITestApplication+When.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF632272EB39008B37F4 /* UITestApplication+When.swift */; };
 		70D2FF672272EBF4008B37F4 /* XCUIElement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF662272EBF4008B37F4 /* XCUIElement+Extensions.swift */; };
-		70D2FF692272EC0E008B37F4 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF682272EC0E008B37F4 /* XCTestCase+Extensions.swift */; };
+		70D2FF692272EC0E008B37F4 /* UITestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF682272EC0E008B37F4 /* UITestCase+Extensions.swift */; };
 		70D2FF6B2272EC24008B37F4 /* XCUIElementQuery+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF6A2272EC24008B37F4 /* XCUIElementQuery+Extension.swift */; };
 		70D2FF702272F3F8008B37F4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF6F2272F3F8008B37F4 /* Configuration.swift */; };
 		70D2FF722272F423008B37F4 /* ConfigurationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF712272F423008B37F4 /* ConfigurationKeys.swift */; };
@@ -107,7 +107,7 @@
 		70D2FF612272EAFB008B37F4 /* UITestCase+Given.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITestCase+Given.swift"; sourceTree = "<group>"; };
 		70D2FF632272EB39008B37F4 /* UITestApplication+When.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITestApplication+When.swift"; sourceTree = "<group>"; };
 		70D2FF662272EBF4008B37F4 /* XCUIElement+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Extensions.swift"; sourceTree = "<group>"; };
-		70D2FF682272EC0E008B37F4 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
+		70D2FF682272EC0E008B37F4 /* UITestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITestCase+Extensions.swift"; sourceTree = "<group>"; };
 		70D2FF6A2272EC24008B37F4 /* XCUIElementQuery+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElementQuery+Extension.swift"; sourceTree = "<group>"; };
 		70D2FF6F2272F3F8008B37F4 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		70D2FF712272F423008B37F4 /* ConfigurationKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationKeys.swift; sourceTree = "<group>"; };
@@ -289,7 +289,7 @@
 		70D2FF652272EBDB008B37F4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				70D2FF682272EC0E008B37F4 /* XCTestCase+Extensions.swift */,
+				70D2FF682272EC0E008B37F4 /* UITestCase+Extensions.swift */,
 				70D2FF662272EBF4008B37F4 /* XCUIElement+Extensions.swift */,
 				70D2FF6A2272EC24008B37F4 /* XCUIElementQuery+Extension.swift */,
 			);
@@ -557,7 +557,7 @@
 				70D2FF642272EB39008B37F4 /* UITestApplication+When.swift in Sources */,
 				70D2FF572272E9C4008B37F4 /* PageObjectModel.swift in Sources */,
 				70D2FF622272EAFB008B37F4 /* UITestCase+Given.swift in Sources */,
-				70D2FF692272EC0E008B37F4 /* XCTestCase+Extensions.swift in Sources */,
+				70D2FF692272EC0E008B37F4 /* UITestCase+Extensions.swift in Sources */,
 				03A157A922FD954E00A60090 /* RegexJSONModifier.swift in Sources */,
 				70D2FF5422720372008B37F4 /* APIStubInfo.swift in Sources */,
 				70D2FF602272EAC2008B37F4 /* UITestApplication+Then.swift in Sources */,
