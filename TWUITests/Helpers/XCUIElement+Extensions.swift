@@ -45,18 +45,59 @@ public extension XCUIElement {
     }
 
     /**
-     Scroll up in scroll view until XCUIElement is found or maximum swipe
+     Scroll Up in scroll view until XCUIElement is found or until maximum number of swipes is reached
      Parameters:
      - element: XCUIElement in scroll view to be found
-     - maxSwipes: maximum swipe up actions
-     Return: true if element was found while swiping up
+     - maxSwipes: maximum swipe actions
+     Return:
+       true if element was found while swiping
      */
     func swipeUp(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
-        for _ in 0..<maxSwipes {
+        find(element: element, maxActions: maxSwipes, action: self.swipeUp() )
+    }
+
+    /**
+     Scroll Left in scroll view until XCUIElement is found or until maximum number of swipes is reached
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe actions
+     Return:
+       true if element was found while swiping
+     */
+    func swipeLeft(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeLeft() )
+    }
+
+    /**
+     Scroll Right in scroll view until XCUIElement is found or until maximum number of swipes is reached
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe actions
+     Return:
+       true if element was found while swiping
+     */
+    func swipeRight(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeRight() )
+    }
+
+    /**
+     Scroll Down in scroll view until XCUIElement is found or until maximum number of swipes is reached
+     Parameters:
+     - element: XCUIElement in scroll view to be found
+     - maxSwipes: maximum swipe actions
+     Return:
+       true if element was found while swiping
+     */
+    func swipeDown(to element: XCUIElement, maxSwipes: UInt = 5) -> Bool {
+        find(element: element, maxActions: maxSwipes, action: self.swipeDown() )
+    }
+
+    func find(element: XCUIElement, maxActions: UInt, action: @autoclosure () -> Void) -> Bool {
+        for _ in 0..<maxActions {
             if element.exists && element.isHittable {
                 return true
             } else {
-                swipeUp()
+                action()
             }
         }
         return false
