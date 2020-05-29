@@ -64,8 +64,9 @@ public final class UITestApplication: XCUIApplication {
 }
 
 extension UITestApplication: XCUIApplicationStarter {
+    
     // UI tests must launch the application that they test.
-    func start(using configuration: Configuration) {
+    public func start(using configuration: Configuration) {
         let port = serverStart(with: configuration.apiConfiguration)
         configuration.update(port: port)
         set(configuration: configuration).launch()
