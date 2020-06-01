@@ -161,6 +161,8 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             switch stub.statusCode {
             case 200:
                 return .okResponse(json: json)
+            case 201:
+                return .created
             case 400:
                 return .badRequest(nil)
             case 401:
