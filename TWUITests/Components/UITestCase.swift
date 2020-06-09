@@ -17,6 +17,7 @@ import XCTest
 public protocol ApplicationStarter {
     func start(using configuration: Configuration) -> UITestApplication
     func start(using configuration: Configuration, stub: APIStubInfo?)
+    func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) -> UITestApplication
 }
 
 open class UITestCase: XCTestCase {
@@ -43,11 +44,25 @@ extension UITestCase: ApplicationStarter {
         return app
     }
 
+    @available(*, deprecated, message: "Use start(using:initiationClosure:) instead")
     public func start(using configuration: Configuration, stub: APIStubInfo? = nil) {
-        let app = start(using: configuration)
-        if let stub = stub {
-            app.serverUpdate(with: stub)
+        start(using: configuration) { app in
+            if let stub = stub {
+                app.serverUpdate(with: stub)
+            }
+            self.app = app
         }
-        self.app = app
+    }
+
+    /// Start app using specified configuration
+    /// - Parameters:
+    ///   - configuration: Configuration object
+    ///   - initiationClosure: Initiation closure. It is called right after setting up mock server, before app launch.
+    ///   Use this param if you need to inject custom mocked API responses on app launch
+    /// - Returns: UITestApplication
+    @discardableResult
+    public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)? = nil) -> UITestApplication {
+        app.start(using: configuration, initiationClosure: initiationClosure)
+        return app
     }
 }

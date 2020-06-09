@@ -15,7 +15,7 @@
 import XCTest
 
 protocol XCUIApplicationStarter {
-    func start(using configuration: Configuration)
+    func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?)
 }
 
 public final class UITestApplication: XCUIApplication {
@@ -64,22 +64,31 @@ public final class UITestApplication: XCUIApplication {
 }
 
 extension UITestApplication: XCUIApplicationStarter {
-    
     // UI tests must launch the application that they test.
-    public func start(using configuration: Configuration) {
-        let port = serverStart(with: configuration.apiConfiguration)
+    public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)? = nil) {
+        let port = serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure)
         configuration.update(port: port)
         set(configuration: configuration).launch()
     }
 
-    private func serverStart(with apiConfiguration: APIConfiguration) -> UInt16 {
+    private func serverStart(
+        with apiConfiguration: APIConfiguration,
+        initiationClosure: ((UITestApplication) -> Void)? = nil
+    ) -> UInt16 {
         let server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
         let port = server.start()
         apiConfiguration.apiStubs.forEach {
             server.update(with: $0)
         }
+
         replacementQueue.forEach(replaceOrQueue)
         self.server = server
+
+        // Call initiation closure if it's not nil
+        if let initiation = initiationClosure {
+            initiation(self)
+        }
+
         return port
     }
 
