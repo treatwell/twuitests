@@ -17,4 +17,5 @@ public enum ConfigurationKeys {
     public static let isAnimationsEnabled = "UI_TEST_IS_ANIMATIONS_ENABLED"
     public static let isFirstTimeUser = "UI_TEST_IS_FIRST_TIME_USER"
     public static let isUser = "UI_TEST_IS_USER"
+    public static let serverPort = "UI_TEST_SERVER_PORT"
 }

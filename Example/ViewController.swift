@@ -15,6 +15,11 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var statusLabel: UILabel! {
+        didSet {
+            statusLabel.text = ""
+        }
+    }
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
@@ -36,8 +41,33 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         view.accessibilityIdentifier = Accessibility.Login.mainView
+        statusLabel.accessibilityIdentifier = Accessibility.Login.Label.authStatus
         usernameTextField.accessibilityIdentifier = Accessibility.Login.TextField.userName
         passwordTextField.accessibilityIdentifier = Accessibility.Login.TextField.password
         loginButton.accessibilityIdentifier = Accessibility.Login.Button.login
+
+        guard ProcessInfo.processInfo.environment[ConfigurationKeys.isUITest] == "true" else {
+            return
+        }
+
+        // Simple example how to pass login info from UI tests to app
+        // If UI Tests are arunning and login info is passed - prefill login fields and tap login button
+        if let user = ProcessInfo.processInfo.environment[ConfigurationKeys.isUser], user.components(separatedBy: "::").count == 2 {
+            let userComponents = user.components(separatedBy: "::")
+            usernameTextField.text = userComponents[0]
+            passwordTextField.text = userComponents[1]
+            loginButtonTapped(loginButton)
+        }
+
+        APIProvider.fetchAuthenticationStatus { [weak self] data in
+            guard
+                let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any],
+                let result = json["result"] as? String
+            else {
+                return
+            }
+
+            self?.statusLabel.text = result
+        }
     }
 }

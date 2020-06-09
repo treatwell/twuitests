@@ -16,7 +16,7 @@ import TWUITests
 
 enum Stub {
     enum Authentication {
-        static let success = APIStubInfo(statusCode: 200, url: "/api/authentication", jsonFilename: "authentication", method: .POST)
-        static let failure = APIStubInfo(statusCode: 200, url: "/api/authentication", jsonFilename: "authentication-failed", method: .POST)
+        static let success = APIStubInfo(statusCode: 200, url: "/v3/a34970a7-b5b4-4c7d-8b38-e74efb3ef895", jsonFilename: "stub.authentication", method: .GET)
+        static let failure = APIStubInfo(statusCode: 500, url: "/v3/a34970a7-b5b4-4c7d-8b38-e74efb3ef895", jsonFilename: "stub.authentication", method: .GET)
     }
 }
