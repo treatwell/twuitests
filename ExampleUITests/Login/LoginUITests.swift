@@ -39,4 +39,17 @@ final class LoginUITests: UITestCase {
         .loginStep.providesUsername("hello@domain.com", password: "password")
         .homeStep.homeScreenIsVisible()
     }
+
+    func testAPIResponse() {
+        start(using: Configuration()) { app in
+            app.replaceValues(
+                of: [
+                    "result": "NOT_AUTHENTICATED"
+                ],
+                in: Stub.Authentication.success
+            )
+        }
+        .loginStep.authenticationStatusIsVisible()
+        .loginStep.authenticationStatusIs(equal: "NOT_AUTHENTICATED")
+    }
 }

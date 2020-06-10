@@ -15,9 +15,22 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    @IBOutlet weak var fetchButton: UIButton!
+    @IBAction func fetchAction(_ sender: Any) {
+        APIProvider.fetchAuthenticationStatus { data in
+            if
+                let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any],
+                let result = json["result"] as? String {
 
+                let alert = UIAlertController(title: "Result", message: result, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.accessibilityIdentifier = Accessibility.Home.mainView
+        fetchButton.accessibilityIdentifier = Accessibility.Home.Button.fetch
     }
 }

@@ -16,6 +16,7 @@
 		1F5AD060233A1D3D0071E01E /* PortSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */; };
 		1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */; };
 		1FE86220228D7197003EA159 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF8B227319DE008B37F4 /* AccessibilityIdentifiers.swift */; };
+		293F1D19248F815800EC03C4 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293F1D18248F815800EC03C4 /* APIProvider.swift */; };
 		70D2FF1B2271F9C7008B37F4 /* TWUITests.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D2FF192271F9C7008B37F4 /* TWUITests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D2FF282271F9D4008B37F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF272271F9D4008B37F4 /* AppDelegate.swift */; };
 		70D2FF2A2271F9D4008B37F4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF292271F9D4008B37F4 /* ViewController.swift */; };
@@ -81,6 +82,7 @@
 		1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerProtocol.swift; sourceTree = "<group>"; };
 		1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSettingsTests.swift; sourceTree = "<group>"; };
 		1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		293F1D18248F815800EC03C4 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		70D2FF162271F9C7008B37F4 /* TWUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TWUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D2FF192271F9C7008B37F4 /* TWUITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TWUITests.h; sourceTree = "<group>"; };
 		70D2FF1A2271F9C7008B37F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				70D2FF2E2271F9D4008B37F4 /* Assets.xcassets */,
 				70D2FF302271F9D4008B37F4 /* LaunchScreen.storyboard */,
 				70D2FF332271F9D4008B37F4 /* Info.plist */,
+				293F1D18248F815800EC03C4 /* APIProvider.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				70D2FF212271F9D4008B37F4 /* Sources */,
 				70D2FF222271F9D4008B37F4 /* Frameworks */,
 				70D2FF232271F9D4008B37F4 /* Resources */,
+				293F1D1B248F8DB000EC03C4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -514,6 +518,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -x \"$(command -v swiftlint)\" ]; then\n    /usr/local/bin/swiftlint\nelse\n    echo \"Swiftlint not installed, skipping\"\nfi\n";
 		};
+		293F1D1B248F8DB000EC03C4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/Example/copy-api-mocks.py $TARGET_DEVICE_IDENTIFIER $USER_LIBRARY_DIR $PRODUCT_BUNDLE_IDENTIFIER\n";
+		};
 		70D2FF482271FFAC008B37F4 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -581,6 +602,7 @@
 				70D2FF8C227319DE008B37F4 /* AccessibilityIdentifiers.swift in Sources */,
 				70D2FF282271F9D4008B37F4 /* AppDelegate.swift in Sources */,
 				70D2FF8322731869008B37F4 /* HomeViewController.swift in Sources */,
+				293F1D19248F815800EC03C4 /* APIProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

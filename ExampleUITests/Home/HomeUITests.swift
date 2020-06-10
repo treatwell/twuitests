@@ -16,5 +16,18 @@ import Foundation
 import TWUITests
 
 final class HomeTests: UITestCase {
-
+    func testAPIResponse() {
+        start(using: Configuration().isUser("hello@domain.com", password: "password")) { app in
+            app.replaceValues(
+                of: [
+                    "result": "AUTHENTICATED"
+                ],
+                in: Stub.Authentication.success
+            )
+        }
+        .homeStep.homeScreenIsVisible()
+        .homeStep.tapButtonFetch()
+        .homeStep.alertIsVisible()
+        .homeStep.alertContains(text: "AUTHENTICATED")
+    }
 }

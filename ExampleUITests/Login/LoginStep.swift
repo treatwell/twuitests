@@ -53,6 +53,16 @@ extension LoginStep {
     func errorAlertIsVisible() {
         XCTAssertEqual(app.alerts.count, 1, "Error alert is not visible")
     }
+
+    @discardableResult
+    func authenticationStatusIsVisible() -> UITestApplication {
+        loginPage.labelAuthStatus.existsAfterDelay()
+        return app
+    }
+
+    func authenticationStatusIs(equal text: String) {
+        XCTAssertEqual(loginPage.labelAuthStatus.label, text)
+    }
 }
 
 // MARK: - Add to Application

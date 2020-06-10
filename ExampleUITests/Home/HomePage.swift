@@ -19,6 +19,10 @@ final class HomePage: UITestBase, Page {
     var mainView: XCUIElement {
         return app.otherElements[Accessibility.Home.mainView]
     }
+
+    var buttonFetch: XCUIElement {
+        return app.buttons[Accessibility.Home.Button.fetch]
+    }
 }
 
 // MARK: - Add to Application

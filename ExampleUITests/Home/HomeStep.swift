@@ -17,13 +17,32 @@ import XCTest
 
 final class HomeStep: UITestBase, Step {
     lazy var homePage = HomePage(app: app)
+
+    func tapButtonFetch() -> UITestApplication {
+        homePage.buttonFetch.tap()
+        return app
+    }
 }
 
 // MARK: - Validation
 
 extension HomeStep {
-    func homeScreenIsVisible() {
+    @discardableResult
+    func homeScreenIsVisible() -> UITestApplication {
         homePage.mainView.existsAfterDelay()
+        return app
+    }
+
+    @discardableResult
+    func alertIsVisible() -> UITestApplication {
+        let result = app.alerts.wait(forExpectationWithFormat: "count == 1")
+        XCTAssertEqual(result, .completed, "Error alert is not visible")
+        return app
+    }
+
+    func alertContains(text: String) {
+        let predicate = NSPredicate(format: "label CONTAINS %@", text)
+        XCTAssert(app.alerts.firstMatch.staticTexts.matching(predicate).firstMatch.exists)
     }
 }
 

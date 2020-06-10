@@ -26,9 +26,17 @@ struct Accessibility {
         struct Button {
             static let login = "login_screen.button.login"
         }
+
+        struct Label {
+            static let authStatus = "login_screen.label.auth_status"
+        }
     }
 
     struct Home {
         static let mainView = "home_screen.main_view"
+
+        struct Button {
+            static let fetch = "home_screen.button.fetch"
+        }
     }
 }

@@ -31,6 +31,10 @@ final class LoginPage: UITestBase, Page {
     var buttonLogin: XCUIElement {
         return app.buttons[Accessibility.Login.Button.login]
     }
+
+    var labelAuthStatus: XCUIElement {
+        return app.staticTexts[Accessibility.Login.Label.authStatus]
+    }
 }
 
 // MARK: - Add to Application
