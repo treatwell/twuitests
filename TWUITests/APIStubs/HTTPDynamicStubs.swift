@@ -162,7 +162,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             case 200:
                 return .okResponse(json: json)
             case 201:
-                return .created
+                return .createdResponse(data: data)
             case 400:
                 return .badRequest(nil)
             case 401:
@@ -209,6 +209,16 @@ private extension HttpResponse {
         }
     }
 
+    static func createdResponse(data: Data?) -> HttpResponse {
+        if let jsonData = data {
+            return .raw(201, "CREATED", nil, { writer in
+                try? writer.write(Data(jsonData))
+            })
+        } else {
+            return .created
+        }
+    }
+
     static func unauthorizedResponse(data: Data?) -> HttpResponse {
         if let jsonData = data {
             return .raw(401, "UNAUTHORIZED", responseHeader, { writer in
@@ -218,6 +228,7 @@ private extension HttpResponse {
             return .unauthorized
         }
     }
+
     static func notAcceptableResponse(data: Data?) -> HttpResponse {
         if let jsonData = data {
             return .raw(406, "NOT_ACCEPTABLE", responseHeader, { writer in
