@@ -13,21 +13,11 @@
 //  limitations under the License.
 
 import Foundation
-import TWUITests
 
-final class HomeTests: UITestCase {
-    func testAPIResponse() throws {
-        try start(with: Configuration().isUser("hello@domain.com", password: "password")) { app in
-            app.replaceValues(
-                of: [
-                    "result": "AUTHENTICATED"
-                ],
-                in: Stub.Authentication.success
-            )
-        }
-        .homeStep.homeScreenIsVisible()
-        .homeStep.tapButtonFetch()
-        .homeStep.alertIsVisible()
-        .homeStep.alertContains(text: "AUTHENTICATED")
-    }
+protocol FileManaging {
+    func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]?) throws
+    func fileExists(atPath path: String) -> Bool
+    func contents(atPath path: String) -> Data?
 }
+
+extension FileManager: FileManaging {}

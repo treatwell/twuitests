@@ -16,27 +16,27 @@ import XCTest
 @testable import TWUITests
 
 final class PortSettingsTests: XCTestCase {
-    func testFixedPortRetry() {
+    func testFixedPortRetry() throws {
         var sut = PortSettings(port: .fixed(1000), maxRetriesCount: 3)
         XCTAssertTrue(sut.canRetry)
         XCTAssertEqual(sut.maxRetriesCount, 3)
         XCTAssertEqual(sut.port, 1000)
-        sut.retry()
-        sut.retry()
-        sut.retry()
+        try sut.retry()
+        try sut.retry()
+        try sut.retry()
         XCTAssertFalse(sut.canRetry)
     }
 
-    func testFixedPortRangeRetry() {
+    func testFixedPortRangeRetry() throws {
         var sut = PortSettings(port: .range(0...10), maxRetriesCount: 3)
         XCTAssertTrue(sut.canRetry)
         XCTAssertEqual(sut.maxRetriesCount, 3)
         XCTAssertTrue((0...10).contains(sut.port))
-        sut.retry()
+        try sut.retry()
         XCTAssertTrue((0...10).contains(sut.port))
-        sut.retry()
+        try sut.retry()
         XCTAssertTrue((0...10).contains(sut.port))
-        sut.retry()
+        try sut.retry()
         XCTAssertFalse(sut.canRetry)
     }
 }

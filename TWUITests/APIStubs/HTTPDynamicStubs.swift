@@ -17,35 +17,43 @@ import Swifter
 
 protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
+    @available(*, deprecated, message: "Use throwable startServer() instead")
     func start() -> UInt16
+    func startServer() throws -> UInt16
     func stop()
     func replace(with: ReplacementJob)
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
-    private let fileManager: FileManager
+    enum Error: Swift.Error {
+        case fileDoesNotExist(String)
+        case dataDoesNotExist(String)
+        case jsonDecode(String)
+    }
+    private let fileManager: FileManaging
     private let server: HttpServerProtocol
     private let appID: String
     private let regexModifier: RegexJSONModifier
     private var portSettings: PortSettings
 
     init(
-        fileManager: FileManager = .default,
+        fileManager: FileManaging = FileManager.default,
         server: HttpServerProtocol = HttpServer(),
         initialStubs: [APIStubInfo] = HTTPDynamicStubsList().initialStubs,
         regexModifier: RegexJSONModifier = RegexJSONModifier(),
         appID: String,
         port: APIConfiguration.PortType,
         maxPortRetries: Int = 5
-    ) {
+    ) throws {
         self.fileManager = fileManager
         self.server = server
         self.appID = appID
         self.regexModifier = regexModifier
         self.portSettings = PortSettings(port: port, maxRetriesCount: maxPortRetries)
-        setup(initialStubs: initialStubs)
+        try setup(initialStubs: initialStubs)
     }
 
+    @available(*, deprecated, message: "Use throwable startServer() instead")
     func start() -> UInt16 {
         do {
             try server.start(portSettings.port)
@@ -57,10 +65,30 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             else {
                 showError("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
             }
-            portSettings.retry()
+            try? portSettings.retry()
             return start()
         } catch {
             showError("Failed to start local server \(error.localizedDescription)")
+        }
+    }
+
+    func startServer() throws -> UInt16 {
+        do {
+            try server.start(portSettings.port)
+            return portSettings.port
+        } catch let error as SocketError {
+            guard
+                case .bindFailed = error,
+                portSettings.canRetry
+            else {
+                print("Failed to start local server after \(portSettings.maxRetriesCount) retries. \(error.localizedDescription)")
+                throw error
+            }
+            try portSettings.retry()
+            return try startServer()
+        } catch let error {
+            print("Failed to start local server \(error.localizedDescription)")
+            throw error
         }
     }
 
@@ -68,30 +96,45 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         server.stop()
     }
 
+    @available(*, deprecated, message: "Use throwable update instead")
     func update(with stubInfo: APIStubInfo) {
-        setupStub(stubInfo)
+        try? setupStub(stubInfo)
     }
 
+    func update(using stubInfo: APIStubInfo) throws {
+        try setupStub(stubInfo)
+    }
+
+    @available(*, deprecated, message: "Use throwable replace instead")
     func replace(with job: ReplacementJob) {
-        transform({
+        try? transform({
                 try self.regexModifier.apply(modification: job.modification, in: $0)
             },
             in: job.stub
         )
     }
 
-    private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) {
+    func replace(using job: ReplacementJob) throws {
+        try transform({
+                try self.regexModifier.apply(modification: job.modification, in: $0)
+            },
+            in: job.stub
+        )
+    }
+
+    private func transform(_ modifyFn: (Data) throws -> Data, in stub: APIStubInfo) throws {
         do {
-            let dataObject = getDataObject(from: stub)
-            guard let json = dataToJSON(data: dataObject) else { return }
+            let dataObject = try getDataObject(from: stub)
+            guard let json = try dataToJSON(data: dataObject) else { return }
             let data = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-            stubJSON(object: try modifyFn(data), for: stub)
+            try stubJSON(object: try modifyFn(data), for: stub)
         } catch let error {
-            print(error)
+            print("Transform error: \(error)")
+            throw error
         }
     }
 
-    private var stubsDirectory: URL {
+    private func stubsDirectory() throws -> URL {
         guard let simulatorSharedDir = ProcessInfo().environment["SIMULATOR_SHARED_RESOURCES_DIRECTORY"] else {
             showError("Cannot get Caches directory")
         }
@@ -103,58 +146,61 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
             : sharedAPIStubsDirURL.appendingPathComponent("\(appID)", isDirectory: true)
         do {
             try fileManager.createDirectory(at: finalSharedAPIStubsDirURL, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            showError("Failed to create shared folder \(finalSharedAPIStubsDirURL.lastPathComponent) in simulator Caches directory at \(cachesDirURL)")
+        } catch let error {
+            print("Failed to create shared folder \(finalSharedAPIStubsDirURL.lastPathComponent) in simulator Caches directory at \(cachesDirURL)")
+            throw error
         }
 
         return finalSharedAPIStubsDirURL
     }
 
-    private func setup(initialStubs: [APIStubInfo]) {
+    private func setup(initialStubs: [APIStubInfo]) throws {
         for stub in initialStubs {
-            setupStub(stub)
+            try setupStub(stub)
         }
     }
 
-    private func getDataObject(from stub: APIStubInfo) -> Data {
-        var directory = stubsDirectory
+    private func getDataObject(from stub: APIStubInfo) throws -> Data {
+        var directory = try stubsDirectory()
         directory.appendPathComponent(stub.jsonFilename + ".json")
         let filePath = directory.path
 
         guard fileManager.fileExists(atPath: filePath) else {
-            showError("File does not exist: \(filePath)")
+            print("File does not exist: \(filePath)")
+            throw Error.fileDoesNotExist(filePath)
         }
 
         guard let data = fileManager.contents(atPath: filePath) else {
-            showError("Data does not exist: \(filePath)")
+            print("Data does not exist: \(filePath)")
+            throw Error.dataDoesNotExist(filePath)
         }
 
         return data
     }
 
-    private func setupStub(_ stub: APIStubInfo) {
-        let data = getDataObject(from: stub)
-        stubJSON(object: data, for: stub)
+    private func setupStub(_ stub: APIStubInfo) throws {
+        let data = try getDataObject(from: stub)
+        try stubJSON(object: data, for: stub)
     }
 
-    private func stubJSON(object data: Data, for stub: APIStubInfo) {
-        let response = createResponse(object: data, for: stub)
+    private func stubJSON(object data: Data, for stub: APIStubInfo) throws {
+        let response = try createResponse(object: data, for: stub)
         switch stub.method {
         case .GET :
-            server.GET[stub.url] = response
+            server.methodGET(path: stub.url, response: response)
         case .POST:
-            server.POST[stub.url] = response
+            server.methodPOST(path: stub.url, response: response)
         case .PUT:
-            server.PUT[stub.url] = response
+            server.methodPUT(path: stub.url, response: response)
         case .DELETE:
-            server.DELETE[stub.url] = response
+            server.methodDELETE(path: stub.url, response: response)
         }
     }
 
-    private func createResponse(object data: Data?, for stub: APIStubInfo) -> ((HttpRequest) -> HttpResponse) {
+    private func createResponse(object data: Data?, for stub: APIStubInfo) throws -> ((HttpRequest) -> HttpResponse) {
         var json: AnyObject?
         if let jsonData = data {
-            json = dataToJSON(data: jsonData) as AnyObject
+            json = try dataToJSON(data: jsonData) as AnyObject
         }
         // Swifter makes it very easy to create stubbed responses
         let response: ((HttpRequest) -> HttpResponse) = { _ in
@@ -182,13 +228,13 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         return response
     }
 
-    private func dataToJSON(data: Data) -> Any? {
+    private func dataToJSON(data: Data) throws -> Any? {
         do {
             return try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
         } catch let myJSONError {
-            print(myJSONError)
+            print("JSON serialization error: \(myJSONError)")
+            throw myJSONError
         }
-        return nil
     }
 
     private func showError(_ message: String) -> Never {

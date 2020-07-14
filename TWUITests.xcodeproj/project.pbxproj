@@ -14,8 +14,10 @@
 		1F1628A223378D4E002DE2BF /* ReplacementJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A123378D4E002DE2BF /* ReplacementJob.swift */; };
 		1F1628A423378D7C002DE2BF /* HttpServerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */; };
 		1F5AD060233A1D3D0071E01E /* PortSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */; };
+		1F7F2EA224BDD439003BF22F /* FileManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7F2EA124BDD439003BF22F /* FileManaging.swift */; };
 		1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */; };
 		1FE86220228D7197003EA159 /* AccessibilityIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF8B227319DE008B37F4 /* AccessibilityIdentifiers.swift */; };
+		1FFB048024BDB97D00E518D5 /* HTTPDynamicStubsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFB047F24BDB97D00E518D5 /* HTTPDynamicStubsTests.swift */; };
 		293F1D19248F815800EC03C4 /* APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293F1D18248F815800EC03C4 /* APIProvider.swift */; };
 		70D2FF1B2271F9C7008B37F4 /* TWUITests.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D2FF192271F9C7008B37F4 /* TWUITests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D2FF282271F9D4008B37F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D2FF272271F9D4008B37F4 /* AppDelegate.swift */; };
@@ -81,7 +83,9 @@
 		1F1628A123378D4E002DE2BF /* ReplacementJob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementJob.swift; sourceTree = "<group>"; };
 		1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpServerProtocol.swift; sourceTree = "<group>"; };
 		1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortSettingsTests.swift; sourceTree = "<group>"; };
+		1F7F2EA124BDD439003BF22F /* FileManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManaging.swift; sourceTree = "<group>"; };
 		1FBA39AD2293FEEC0034DF26 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		1FFB047F24BDB97D00E518D5 /* HTTPDynamicStubsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPDynamicStubsTests.swift; sourceTree = "<group>"; };
 		293F1D18248F815800EC03C4 /* APIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvider.swift; sourceTree = "<group>"; };
 		70D2FF162271F9C7008B37F4 /* TWUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TWUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D2FF192271F9C7008B37F4 /* TWUITests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TWUITests.h; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				03A1579F22FD66B700A60090 /* Info.plist */,
 				03A157A622FD952C00A60090 /* RegexJSONModifierTests.swift */,
 				1F5AD05F233A1D3D0071E01E /* PortSettingsTests.swift */,
+				1FFB047F24BDB97D00E518D5 /* HTTPDynamicStubsTests.swift */,
 			);
 			path = TWUITestsTests;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				03A157A822FD954E00A60090 /* RegexJSONModifier.swift */,
 				1F1628A123378D4E002DE2BF /* ReplacementJob.swift */,
 				1F1628A323378D7C002DE2BF /* HttpServerProtocol.swift */,
+				1F7F2EA124BDD439003BF22F /* FileManaging.swift */,
 			);
 			path = APIStubs;
 			sourceTree = "<group>";
@@ -564,6 +570,7 @@
 			files = (
 				03A157A722FD952C00A60090 /* RegexJSONModifierTests.swift in Sources */,
 				1F5AD060233A1D3D0071E01E /* PortSettingsTests.swift in Sources */,
+				1FFB048024BDB97D00E518D5 /* HTTPDynamicStubsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +593,7 @@
 				70D2FF4F227202D7008B37F4 /* HTTPStubsList.swift in Sources */,
 				70D2FF672272EBF4008B37F4 /* XCUIElement+Extensions.swift in Sources */,
 				1FBA39AE2293FEEC0034DF26 /* APIConfiguration.swift in Sources */,
+				1F7F2EA224BDD439003BF22F /* FileManaging.swift in Sources */,
 				70D2FF5B2272EA63008B37F4 /* UITestBase.swift in Sources */,
 				70D2FF6B2272EC24008B37F4 /* XCUIElementQuery+Extension.swift in Sources */,
 				70D2FF592272E9F9008B37F4 /* UITestCase.swift in Sources */,
@@ -664,6 +672,10 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X5394XCRFK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TWUITestsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -683,6 +695,10 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X5394XCRFK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TWUITestsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

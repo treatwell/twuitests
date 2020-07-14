@@ -1,10 +1,10 @@
 import Swifter
 
 protocol HttpServerProtocol: AnyObject {
-    var DELETE: Swifter.HttpServer.MethodRoute { get set }
-    var POST: Swifter.HttpServer.MethodRoute { get set }
-    var GET: Swifter.HttpServer.MethodRoute { get set }
-    var PUT: Swifter.HttpServer.MethodRoute { get set }
+    func methodDELETE(path: String, response: ((HttpRequest) -> HttpResponse)?)
+    func methodPOST(path: String, response: ((HttpRequest) -> HttpResponse)?)
+    func methodGET(path: String, response: ((HttpRequest) -> HttpResponse)?)
+    func methodPUT(path: String, response: ((HttpRequest) -> HttpResponse)?)
     func start(_ port: in_port_t, forceIPv4: Bool, priority: DispatchQoS.QoSClass) throws
     func stop()
 }
@@ -15,4 +15,20 @@ extension HttpServerProtocol {
     }
 }
 
-extension HttpServer: HttpServerProtocol {}
+extension HttpServer: HttpServerProtocol {
+    func methodDELETE(path: String, response: ((HttpRequest) -> HttpResponse)?) {
+        DELETE[path] = response
+    }
+
+    func methodPOST(path: String, response: ((HttpRequest) -> HttpResponse)?) {
+        POST[path] = response
+    }
+
+    func methodGET(path: String, response: ((HttpRequest) -> HttpResponse)?) {
+        GET[path] = response
+    }
+
+    func methodPUT(path: String, response: ((HttpRequest) -> HttpResponse)?) {
+        PUT[path] = response
+    }
+}
