@@ -17,7 +17,7 @@ import XCTest
 public protocol XCUIApplicationStarter {
     @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?)
-    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws
+    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws
 }
 
 public extension XCUIApplicationStarter {
@@ -119,7 +119,7 @@ extension UITestApplication: XCUIApplicationStarter {
     }
 
     // UI tests must launch the application that they test.
-    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws {
+    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws {
         let port = try serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure)
         configuration.update(port: port)
         set(configuration: configuration).launch()
@@ -127,7 +127,7 @@ extension UITestApplication: XCUIApplicationStarter {
 
     private func serverStart(
         with apiConfiguration: APIConfiguration,
-        initiationClosure: ((UITestApplication) -> Void)? = nil
+        initiationClosure: ((UITestApplication) throws -> Void)?
     ) throws -> UInt16 {
         let server = try HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
         let port = try server.startServer()
@@ -140,7 +140,7 @@ extension UITestApplication: XCUIApplicationStarter {
 
         // Call initiation closure if it's not nil
         if let initiation = initiationClosure {
-            initiation(self)
+            try initiation(self)
         }
 
         return port

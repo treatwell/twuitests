@@ -42,8 +42,8 @@ final class LoginUITests: UITestCase {
 
     func testAPIResponse() throws {
         try start(with: Configuration()) { app in
-            app.replaceValues(
-                of: [
+            try app.replace(
+                keysAndValues: [
                     "result": "NOT_AUTHENTICATED"
                 ],
                 in: Stub.Authentication.success

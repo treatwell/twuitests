@@ -18,8 +18,8 @@ import TWUITests
 final class HomeTests: UITestCase {
     func testAPIResponse() throws {
         try start(with: Configuration().isUser("hello@domain.com", password: "password")) { app in
-            app.replaceValues(
-                of: [
+            try app.replace(
+                keysAndValues: [
                     "result": "AUTHENTICATED"
                 ],
                 in: Stub.Authentication.success
