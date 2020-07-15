@@ -15,7 +15,7 @@
 import XCTest
 @testable import TWUITests
 
-class RegexJSONModifierTests: XCTestCase {
+final class RegexJSONModifierTests: XCTestCase {
 
     private var sut: RegexJSONModifier!
     private var jsonInput = """

@@ -1,4 +1,7 @@
 struct PortSettings {
+    enum Error: Swift.Error {
+        case failedToGeneratePort
+    }
     let maxRetriesCount: Int
     private(set) var port: UInt16
     private let portType: APIConfiguration.PortType
@@ -19,15 +22,18 @@ struct PortSettings {
         return retriesCount < maxRetriesCount
     }
 
-    mutating func retry() {
-        port = generatedPort
+    mutating func retry() throws {
         retriesCount += 1
+        port = try generatedPort()
     }
 
-    private var generatedPort: UInt16 {
+    private func generatedPort() throws -> UInt16 {
         switch portType {
         case .range(let portRange):
-            return portRange.randomElement()!
+            guard let port = portRange.randomElement() else {
+                throw Error.failedToGeneratePort
+            }
+            return port
         case .fixed(let port):
             return port
         }

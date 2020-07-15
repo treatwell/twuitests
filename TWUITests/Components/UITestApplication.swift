@@ -15,7 +15,19 @@
 import XCTest
 
 protocol XCUIApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?)
+    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws
+}
+
+extension XCUIApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
+    func start(using configuration: Configuration) {
+        start(using: configuration, initiationClosure: nil)
+    }
+    func start(with configuration: Configuration) throws {
+        try start(with: configuration, initiationClosure: nil)
+    }
 }
 
 public final class UITestApplication: XCUIApplication {
@@ -64,9 +76,18 @@ public final class UITestApplication: XCUIApplication {
 }
 
 extension UITestApplication: XCUIApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
+    public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) {
+        guard let port = try? serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure) else {
+            preconditionFailure("Failed to start server")
+        }
+        configuration.update(port: port)
+        set(configuration: configuration).launch()
+    }
+
     // UI tests must launch the application that they test.
-    public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)? = nil) {
-        let port = serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure)
+    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws {
+        let port = try serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure)
         configuration.update(port: port)
         set(configuration: configuration).launch()
     }
@@ -74,11 +95,11 @@ extension UITestApplication: XCUIApplicationStarter {
     private func serverStart(
         with apiConfiguration: APIConfiguration,
         initiationClosure: ((UITestApplication) -> Void)? = nil
-    ) -> UInt16 {
-        let server = HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
-        let port = server.start()
-        apiConfiguration.apiStubs.forEach {
-            server.update(with: $0)
+    ) throws -> UInt16 {
+        let server = try HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
+        let port = try server.startServer()
+        try apiConfiguration.apiStubs.forEach {
+            try server.update(using: $0)
         }
 
         replacementQueue.forEach(replaceOrQueue)

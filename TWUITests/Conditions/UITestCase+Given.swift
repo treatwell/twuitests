@@ -15,8 +15,8 @@
 import XCTest
 
 public extension UITestCase {
-    func given(configuration: Configuration, stub: APIStubInfo? = nil) -> UITestApplication {
-        let app = start(using: configuration)
+    func given(configuration: Configuration, stub: APIStubInfo? = nil) throws -> UITestApplication {
+        let app = try start(with: configuration)
         if let stub = stub {
             app.serverUpdate(with: stub)
         }

@@ -17,31 +17,31 @@ import XCTest
 
 final class LoginUITests: UITestCase {
 
-    func testFirstTimeUserLoginScreenIsVisible() {
-        start(using: Configuration()
+    func testFirstTimeUserLoginScreenIsVisible() throws {
+        try start(with: Configuration()
             .isFirstTimeUser()
         )
         .loginStep.loginScreenIsVisible()
     }
 
-    func testEmptyUsernameOrPasswordShowsAlert() {
-        start(using: Configuration()
+    func testEmptyUsernameOrPasswordShowsAlert() throws {
+        try start(with: Configuration()
             .isFirstTimeUser()
         )
         .loginStep.providesEmptyCredentials()
         .loginStep.errorAlertIsVisible()
     }
 
-    func testThatUserCanLogin() {
-        start(using: Configuration()
+    func testThatUserCanLogin() throws {
+        try start(with: Configuration()
             .isFirstTimeUser()
         )
         .loginStep.providesUsername("hello@domain.com", password: "password")
         .homeStep.homeScreenIsVisible()
     }
 
-    func testAPIResponse() {
-        start(using: Configuration()) { app in
+    func testAPIResponse() throws {
+        try start(with: Configuration()) { app in
             app.replaceValues(
                 of: [
                     "result": "NOT_AUTHENTICATED"

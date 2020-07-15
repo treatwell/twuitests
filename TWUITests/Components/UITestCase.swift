@@ -15,9 +15,21 @@
 import XCTest
 
 public protocol ApplicationStarter {
+    func start(with configuration: Configuration) throws -> UITestApplication
+    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws -> UITestApplication
+
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     func start(using configuration: Configuration) -> UITestApplication
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, stub: APIStubInfo?)
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) -> UITestApplication
+}
+
+public extension ApplicationStarter {
+    func start(with configuration: Configuration) throws -> UITestApplication {
+        try start(with: configuration, initiationClosure: nil)
+    }
 }
 
 open class UITestCase: XCTestCase {
@@ -38,13 +50,14 @@ open class UITestCase: XCTestCase {
 }
 
 extension UITestCase: ApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     @discardableResult
     public func start(using configuration: Configuration) -> UITestApplication {
         app.start(using: configuration)
         return app
     }
 
-    @available(*, deprecated, message: "Use start(using:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable`start(with:initiationClosure:)` instead")
     public func start(using configuration: Configuration, stub: APIStubInfo? = nil) {
         start(using: configuration) { app in
             if let stub = stub {
@@ -60,6 +73,13 @@ extension UITestCase: ApplicationStarter {
     ///   - initiationClosure: Initiation closure. It is called right after setting up mock server, before app launch.
     ///   Use this param if you need to inject custom mocked API responses on app launch
     /// - Returns: UITestApplication
+    @discardableResult
+    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws -> UITestApplication {
+        try app.start(with: configuration, initiationClosure: initiationClosure)
+        return app
+    }
+
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     @discardableResult
     public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)? = nil) -> UITestApplication {
         app.start(using: configuration, initiationClosure: initiationClosure)
