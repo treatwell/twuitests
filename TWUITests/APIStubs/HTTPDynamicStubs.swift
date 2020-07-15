@@ -17,7 +17,7 @@ import Swifter
 
 protocol HTTPDynamicStubing {
     func update(with stubInfo: APIStubInfo)
-    @available(*, deprecated, message: "Use throwable startServer() instead")
+    @available(*, deprecated, message: "Use throwable `startServer()` instead")
     func start() -> UInt16
     func startServer() throws -> UInt16
     func stop()
@@ -29,6 +29,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         case fileDoesNotExist(String)
         case dataDoesNotExist(String)
         case jsonDecode(String)
+        case cantGetSimulatorSharedDir
     }
     private let fileManager: FileManaging
     private let server: HttpServerProtocol
@@ -53,7 +54,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         try setup(initialStubs: initialStubs)
     }
 
-    @available(*, deprecated, message: "Use throwable startServer() instead")
+    @available(*, deprecated, message: "Use throwable `startServer()` instead")
     func start() -> UInt16 {
         do {
             try server.start(portSettings.port)
@@ -96,7 +97,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         server.stop()
     }
 
-    @available(*, deprecated, message: "Use throwable update instead")
+    @available(*, deprecated, message: "Use throwable `update(using:)` instead")
     func update(with stubInfo: APIStubInfo) {
         try? setupStub(stubInfo)
     }
@@ -105,7 +106,7 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         try setupStub(stubInfo)
     }
 
-    @available(*, deprecated, message: "Use throwable replace instead")
+    @available(*, deprecated, message: "Use throwable `replace(using:)` instead")
     func replace(with job: ReplacementJob) {
         try? transform({
                 try self.regexModifier.apply(modification: job.modification, in: $0)
@@ -136,22 +137,25 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
 
     private func stubsDirectory() throws -> URL {
         guard let simulatorSharedDir = ProcessInfo().environment["SIMULATOR_SHARED_RESOURCES_DIRECTORY"] else {
-            showError("Cannot get Caches directory")
+            print("Cannot get Caches directory")
+            throw Error.cantGetSimulatorSharedDir
         }
-        let simulatorHomeDirURL = URL(fileURLWithPath: simulatorSharedDir)
-        let cachesDirURL = simulatorHomeDirURL.appendingPathComponent("Library/Caches")
-        let sharedAPIStubsDirURL = cachesDirURL.appendingPathComponent("ApiStubs", isDirectory: true)
-        let finalSharedAPIStubsDirURL: URL = appID.isEmpty
+        let cacheDirPath = "Library/Caches"
+        let sharedAPIStubsDir = "ApiStubs"
+
+        let cachesDirURL = URL(fileURLWithPath: simulatorSharedDir).appendingPathComponent(cacheDirPath)
+        let sharedAPIStubsDirURL = cachesDirURL.appendingPathComponent(sharedAPIStubsDir, isDirectory: true)
+        let appSharedAPIStubsDirURL: URL = appID.isEmpty
             ? sharedAPIStubsDirURL
             : sharedAPIStubsDirURL.appendingPathComponent("\(appID)", isDirectory: true)
         do {
-            try fileManager.createDirectory(at: finalSharedAPIStubsDirURL, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: appSharedAPIStubsDirURL, withIntermediateDirectories: true, attributes: nil)
         } catch let error {
-            print("Failed to create shared folder \(finalSharedAPIStubsDirURL.lastPathComponent) in simulator Caches directory at \(cachesDirURL)")
+            print("Failed to create shared folder \(appSharedAPIStubsDirURL.lastPathComponent) in simulator Caches directory at \(cachesDirURL)")
             throw error
         }
 
-        return finalSharedAPIStubsDirURL
+        return appSharedAPIStubsDirURL
     }
 
     private func setup(initialStubs: [APIStubInfo]) throws {

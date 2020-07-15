@@ -18,11 +18,11 @@ public protocol ApplicationStarter {
     func start(with configuration: Configuration) throws -> UITestApplication
     func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws -> UITestApplication
 
-    @available(*, deprecated, message: "Use throwable start(with:) instead")
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     func start(using configuration: Configuration) -> UITestApplication
-    @available(*, deprecated, message: "Use throwable start(with:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, stub: APIStubInfo?)
-    @available(*, deprecated, message: "Use throwable start(with:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) -> UITestApplication
 }
 
@@ -50,14 +50,14 @@ open class UITestCase: XCTestCase {
 }
 
 extension UITestCase: ApplicationStarter {
-    @available(*, deprecated, message: "Use throwable start(with:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     @discardableResult
     public func start(using configuration: Configuration) -> UITestApplication {
         app.start(using: configuration)
         return app
     }
 
-    @available(*, deprecated, message: "Use start(with:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable`start(with:initiationClosure:)` instead")
     public func start(using configuration: Configuration, stub: APIStubInfo? = nil) {
         start(using: configuration) { app in
             if let stub = stub {
@@ -79,7 +79,7 @@ extension UITestCase: ApplicationStarter {
         return app
     }
 
-    @available(*, deprecated, message: "Use throwable start(with:initiationClosure:) instead")
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     @discardableResult
     public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)? = nil) -> UITestApplication {
         app.start(using: configuration, initiationClosure: initiationClosure)

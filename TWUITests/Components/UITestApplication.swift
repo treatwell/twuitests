@@ -15,11 +15,13 @@
 import XCTest
 
 protocol XCUIApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?)
     func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws
 }
 
 extension XCUIApplicationStarter {
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     func start(using configuration: Configuration) {
         start(using: configuration, initiationClosure: nil)
     }
@@ -74,7 +76,7 @@ public final class UITestApplication: XCUIApplication {
 }
 
 extension UITestApplication: XCUIApplicationStarter {
-    @available(*, deprecated, message: "Use throwable start instead")
+    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     public func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) {
         guard let port = try? serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure) else {
             preconditionFailure("Failed to start server")
