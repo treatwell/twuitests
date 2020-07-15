@@ -50,7 +50,7 @@ open class UITestCase: XCTestCase {
 }
 
 extension UITestCase: ApplicationStarter {
-    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     @discardableResult
     public func start(using configuration: Configuration) -> UITestApplication {
         app.start(using: configuration)
