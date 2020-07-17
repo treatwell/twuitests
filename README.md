@@ -38,8 +38,8 @@ Working example project can be found [here](https://github.com/treatwell/twuites
 Test:
 ```swift
 final class LoginUITests: UITestCase {
-    func testSomething() {
-        start(using: Configuration())
+    func testSomething() throws {
+        try start(with: Configuration())
         .loginStep.someAction()
         .loginStep.loginPageIsVisible()
     }
