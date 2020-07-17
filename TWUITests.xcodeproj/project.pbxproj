@@ -395,7 +395,7 @@
 				70D2FF212271F9D4008B37F4 /* Sources */,
 				70D2FF222271F9D4008B37F4 /* Frameworks */,
 				70D2FF232271F9D4008B37F4 /* Resources */,
-				293F1D1B248F8DB000EC03C4 /* ShellScript */,
+				293F1D1B248F8DB000EC03C4 /* Copy API responses */,
 			);
 			buildRules = (
 			);
@@ -524,7 +524,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -x \"$(command -v swiftlint)\" ]; then\n    /usr/local/bin/swiftlint\nelse\n    echo \"Swiftlint not installed, skipping\"\nfi\n";
 		};
-		293F1D1B248F8DB000EC03C4 /* ShellScript */ = {
+		293F1D1B248F8DB000EC03C4 /* Copy API responses */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -533,6 +533,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Copy API responses";
 			outputFileListPaths = (
 			);
 			outputPaths = (

@@ -16,12 +16,12 @@ import Foundation
 import Swifter
 
 protocol HTTPDynamicStubing {
-    func update(with stubInfo: APIStubInfo)
+    func update(with stubInfo: APIStubInfo) throws
     @available(*, deprecated, message: "Use throwable `startServer()` instead")
     func start() -> UInt16
     func startServer() throws -> UInt16
     func stop()
-    func replace(with: ReplacementJob)
+    func replace(with: ReplacementJob) throws
 }
 
 final class HTTPDynamicStubs: HTTPDynamicStubing {
@@ -97,25 +97,11 @@ final class HTTPDynamicStubs: HTTPDynamicStubing {
         server.stop()
     }
 
-    @available(*, deprecated, message: "Use throwable `update(using:)` instead")
-    func update(with stubInfo: APIStubInfo) {
-        try? setupStub(stubInfo)
-    }
-
-    func update(using stubInfo: APIStubInfo) throws {
+    func update(with stubInfo: APIStubInfo) throws {
         try setupStub(stubInfo)
     }
 
-    @available(*, deprecated, message: "Use throwable `replace(using:)` instead")
-    func replace(with job: ReplacementJob) {
-        try? transform({
-                try self.regexModifier.apply(modification: job.modification, in: $0)
-            },
-            in: job.stub
-        )
-    }
-
-    func replace(using job: ReplacementJob) throws {
+    func replace(with job: ReplacementJob) throws {
         try transform({
                 try self.regexModifier.apply(modification: job.modification, in: $0)
             },

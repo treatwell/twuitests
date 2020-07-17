@@ -16,7 +16,7 @@ import XCTest
 
 public protocol ApplicationStarter {
     func start(with configuration: Configuration) throws -> UITestApplication
-    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws -> UITestApplication
+    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws -> UITestApplication
 
     @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     func start(using configuration: Configuration) -> UITestApplication
@@ -50,7 +50,7 @@ open class UITestCase: XCTestCase {
 }
 
 extension UITestCase: ApplicationStarter {
-    @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
+    @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     @discardableResult
     public func start(using configuration: Configuration) -> UITestApplication {
         app.start(using: configuration)
@@ -74,7 +74,7 @@ extension UITestCase: ApplicationStarter {
     ///   Use this param if you need to inject custom mocked API responses on app launch
     /// - Returns: UITestApplication
     @discardableResult
-    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws -> UITestApplication {
+    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws -> UITestApplication {
         try app.start(with: configuration, initiationClosure: initiationClosure)
         return app
     }

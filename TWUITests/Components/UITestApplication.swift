@@ -14,17 +14,18 @@
 
 import XCTest
 
-protocol XCUIApplicationStarter {
+public protocol XCUIApplicationStarter {
     @available(*, deprecated, message: "Use throwable `start(with:initiationClosure:)` instead")
     func start(using configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?)
-    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws
+    func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws
 }
 
-extension XCUIApplicationStarter {
+public extension XCUIApplicationStarter {
     @available(*, deprecated, message: "Use throwable `start(with:)` instead")
     func start(using configuration: Configuration) {
         start(using: configuration, initiationClosure: nil)
     }
+
     func start(with configuration: Configuration) throws {
         try start(with: configuration, initiationClosure: nil)
     }
@@ -40,16 +41,29 @@ public final class UITestApplication: XCUIApplication {
         server?.stop()
     }
 
+    @available(*, deprecated, message: "Use throwable `update(using:)` instead")
     public func serverUpdate(with stubInfo: APIStubInfo) {
-        server?.update(with: stubInfo)
+        try? server?.update(with: stubInfo)
     }
 
-    public func replaceValue(of key: String, with value: String, in stub: APIStubInfo) {
+    public func update(using stubInfo: APIStubInfo) throws {
+        try server?.update(with: stubInfo)
+    }
+}
+
+public extension UITestApplication {
+    @available(*, deprecated, message: "Use throwable `replace(key:with:in)` instead")
+    func replaceValue(of key: String, with value: String, in stub: APIStubInfo) {
         replaceValues(of: [key: value], in: stub)
     }
 
-    public func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
-        replaceOrQueue(
+    func replace(key: String, with value: String, in stub: APIStubInfo) throws {
+        try replace(keysAndValues: [key: value], in: stub)
+    }
+
+    @available(*, deprecated, message: "Use throwable `replace(oldToNewValues:in:)` instead")
+    func replaceValues(withOldToNewMap oldToNewMap: [String: String], in stub: APIStubInfo) {
+        try? replaceOrQueue(
             job: ReplacementJob(
                 modification: .replaceValues(oldToNewMap),
                 stub: stub
@@ -57,8 +71,18 @@ public final class UITestApplication: XCUIApplication {
         )
     }
 
-    public func replaceValues(of items: [String: String], in stub: APIStubInfo) {
-        replaceOrQueue(
+    func replace(oldToNewValues oldToNewMap: [String: String], in stub: APIStubInfo) throws {
+        try replaceOrQueue(
+            job: ReplacementJob(
+                modification: .replaceValues(oldToNewMap),
+                stub: stub
+            )
+        )
+    }
+
+    @available(*, deprecated, message: "Use throwable `replace(keysAndValues:in:)` instead")
+    func replaceValues(of items: [String: String], in stub: APIStubInfo) {
+        try? replaceOrQueue(
             job: ReplacementJob(
                 modification: .replaceKeyValues(items),
                 stub: stub
@@ -66,12 +90,21 @@ public final class UITestApplication: XCUIApplication {
         )
     }
 
-    fileprivate func replaceOrQueue(job: ReplacementJob) {
+    func replace(keysAndValues items: [String: String], in stub: APIStubInfo) throws {
+        try replaceOrQueue(
+            job: ReplacementJob(
+                modification: .replaceKeyValues(items),
+                stub: stub
+            )
+        )
+    }
+
+    fileprivate func replaceOrQueue(job: ReplacementJob) throws {
         guard let server = server else {
             replacementQueue.append(job)
             return
         }
-        server.replace(with: job)
+        try server.replace(with: job)
     }
 }
 
@@ -86,7 +119,7 @@ extension UITestApplication: XCUIApplicationStarter {
     }
 
     // UI tests must launch the application that they test.
-    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) -> Void)?) throws {
+    public func start(with configuration: Configuration, initiationClosure: ((UITestApplication) throws -> Void)?) throws {
         let port = try serverStart(with: configuration.apiConfiguration, initiationClosure: initiationClosure)
         configuration.update(port: port)
         set(configuration: configuration).launch()
@@ -94,20 +127,20 @@ extension UITestApplication: XCUIApplicationStarter {
 
     private func serverStart(
         with apiConfiguration: APIConfiguration,
-        initiationClosure: ((UITestApplication) -> Void)? = nil
+        initiationClosure: ((UITestApplication) throws -> Void)?
     ) throws -> UInt16 {
         let server = try HTTPDynamicStubs(appID: apiConfiguration.appID, port: apiConfiguration.port)
         let port = try server.startServer()
         try apiConfiguration.apiStubs.forEach {
-            try server.update(using: $0)
+            try server.update(with: $0)
         }
 
-        replacementQueue.forEach(replaceOrQueue)
+        try replacementQueue.forEach(replaceOrQueue)
         self.server = server
 
         // Call initiation closure if it's not nil
         if let initiation = initiationClosure {
-            initiation(self)
+            try initiation(self)
         }
 
         return port

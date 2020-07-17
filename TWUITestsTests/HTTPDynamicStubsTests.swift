@@ -69,7 +69,7 @@ final class HTTPDynamicStubsTests: XCTestCase {
 
         // WHEN: GET stub is updated
         fileManager.contentsData = String(#"{"status": "ok"}"#).data(using: .utf8)
-        XCTAssertNoThrow(try sut.update(using: APIStubInfo(statusCode: 10, url: "", jsonFilename: "", method: .GET)))
+        XCTAssertNoThrow(try sut.update(with: APIStubInfo(statusCode: 10, url: "", jsonFilename: "", method: .GET)))
 
         // THEN: stub should be successfully registered to server
         XCTAssertTrue(fileManager.fileExistsCalled)
