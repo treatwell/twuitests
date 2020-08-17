@@ -1,3 +1,4 @@
+import Foundation
 import Swifter
 
 protocol HttpServerProtocol: AnyObject {
