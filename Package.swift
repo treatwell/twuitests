@@ -5,10 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "TWUITests",
-    platforms: [.iOS(.v9), .macOS(.v10_15)],
+    platforms: [.iOS(.v9), .macOS(.v10_14)],
     products: [
-        .library(name: "TWUITests", targets: ["TWUITests"]),
-//        .executable(name: "Example", targets: ["Example"])
+        .library(name: "TWUITests", targets: ["TWUITests"])
     ],
     dependencies: [
         .package(name: "Swifter", url: "https://github.com/httpswift/swifter.git", .upToNextMajor(from: "1.4.7"))
@@ -21,16 +20,6 @@ let package = Package(
         .testTarget(
             name: "TWUITestsTests",
             dependencies: ["TWUITests"]
-        ),
-//        .target(
-//            name: "TWExample",
-//            dependencies: ["TWUITests"],
-//            path: "Example"
-//        ),
-//        .testTarget(
-//            name: "ExampleUITests",
-//            dependencies: ["Swifter"],
-//            path: "ExampleUITests"
-//        )
+        )
     ]
 )
