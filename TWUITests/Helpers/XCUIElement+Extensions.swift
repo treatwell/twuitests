@@ -15,15 +15,27 @@
 import XCTest
 
 public extension XCUIElement {
-    func existsAfterDelay() {
-        let existsPredicate = NSPredicate(format: "exists == true")
+    func existsAfterDelay(_ shouldExist: Bool = true) {
+        let existsPredicate = shouldExist
+            ? NSPredicate(format: "exists == true")
+            : NSPredicate(format: "exists == false")
+        
         let expectation = XCTNSPredicateExpectation(predicate: existsPredicate, object: self)
         XCTWaiter().wait(for: [expectation], timeout: 5)
-        XCTAssertTrue(exists, "Element \(identifier) should exists after delay")
+
+        let message = shouldExist
+            ? "Element \(identifier) should exist  after delay"
+            : "Element \(identifier) should not exist after delay"
+
+        XCTAssertEqual(exists, shouldExist, message)
     }
 
-    func exists() {
-        XCTAssertTrue(exists, "Element \(identifier) should exists")
+    func exists(_ shouldExist: Bool = true) {
+        let message = shouldExist
+            ? "Element \(identifier) should exist"
+            : "Element \(identifier) should not exist"
+
+        XCTAssertEqual(exists, shouldExist, message)
     }
 
     /**
