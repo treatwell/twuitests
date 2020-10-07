@@ -23,7 +23,7 @@ import PackageDescription
 let package = Package(
     name: "MySPMLibrary",
     dependencies: [
-        .package(url: "https://github.com/treatwell/twuitests.git", .upToNextMajor(from: "0.2.0"))
+        .package(url: "https://github.com/treatwell/twuitests.git", from: "0.20.0")
     ]
 )
 ```
