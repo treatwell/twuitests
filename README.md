@@ -11,6 +11,23 @@
 ### Purpose
 Lightweight UITests framework based on XCTest to help you write and maintain UITests quickly and easily with well organised code structure.
 
+### Use Swift Package Manager as a dependancy manager 
+
+The Swift Package Manager is a tool for automating the distribution of Swift code and is integrated into the swift compiler. To add a package dependency to your Xcode project, select File > Swift Packages > Add Package Dependency and enter https://github.com/treatwell/twuitests.git
+
+or add dependency to your `Package.swift`
+
+```swift
+import PackageDescription
+
+let package = Package(
+    name: "MySPMLibrary",
+    dependencies: [
+        .package(url: "https://github.com/treatwell/twuitests.git", .upToNextMajor(from: "0.2.0"))
+    ]
+)
+```
+
 ### Use Carthage as a dependancy manager
 
 1. Add `git "https://github.com/treatwell/twuitests.git"` to your Cartfile.
@@ -33,7 +50,7 @@ Server API local responses should be kept at path: `LIBRARY_DIR + "/Developer/Co
 Tip: have a script to copy stubs to required destination in build phase. Python script example can be found [here](https://github.com/treatwell/twuitests-example).
 
 ## Example
-Working example project can be found [here](https://github.com/treatwell/twuitests-example).
+Working example project can be found in `Example` folder.
 
 Test:
 ```swift
