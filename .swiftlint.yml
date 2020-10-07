@@ -5,6 +5,7 @@ excluded:
   - External
   - Carthage
   - XCode Templates
+  - .build
 opt_in_rules:
   - vertical_whitespace
 
