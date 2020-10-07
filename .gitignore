@@ -2,3 +2,5 @@ build/
 Carthage/
 xcuserdata/
 *.pbxuser
+.build
+.DS_Store

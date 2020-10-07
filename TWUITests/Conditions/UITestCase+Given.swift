@@ -18,7 +18,7 @@ public extension UITestCase {
     func given(configuration: Configuration, stub: APIStubInfo? = nil) throws -> UITestApplication {
         let app = try start(with: configuration)
         if let stub = stub {
-            app.serverUpdate(with: stub)
+            try app.update(using: stub)
         }
         return app
     }

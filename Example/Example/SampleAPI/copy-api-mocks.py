@@ -27,7 +27,7 @@ print('Library dir:', LIBRARY_DIR)
 print('App ID:', APP_ID)
 CACHES_DIR = LIBRARY_DIR + "/Developer/CoreSimulator/Devices/" + DEVICE_ID + "/data/Library/Caches/ApiStubs/" + APP_ID + "/"
 print('CACHES_DIR:', CACHES_DIR)
-LOCAL_CACHE_DIR = os.environ['PROJECT_DIR'] + "/" + os.environ['TARGET_NAME'] + "/ApiStubs/"
+LOCAL_CACHE_DIR = os.environ['PROJECT_DIR'] + "/" + os.environ['TARGET_NAME'] + "/SampleAPI/ApiStubs/"
 print('LOCAL_CACHE_DIR:', LOCAL_CACHE_DIR)
 
 DIRECTORY_EXISTS = os.path.isdir(CACHES_DIR)

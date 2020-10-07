@@ -1,4 +1,5 @@
 import Swifter
+import Dispatch
 
 protocol HttpServerProtocol: AnyObject {
     func methodDELETE(path: String, response: ((HttpRequest) -> HttpResponse)?)
